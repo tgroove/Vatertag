@@ -7,7 +7,7 @@
         Else
             rdoAuswertung.Checked = True
         End If
-
+        btnOk.Enabled = False
     End Sub
 
     Private Sub btnOk_Click(sender As Object, e As EventArgs) Handles btnOk.Click
