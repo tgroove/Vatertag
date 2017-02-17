@@ -29,6 +29,7 @@ Partial Class frmSuche
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.mnuDatei = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuOpenDB = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NeueDatenbankToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DruckvorschauToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TagesabschlußToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EinstellungenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -45,7 +46,8 @@ Partial Class frmSuche
         Me.PrintPreviewErgebnisse = New System.Windows.Forms.PrintPreviewDialog()
         Me.PrintAbschluss = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewAbschluss = New System.Windows.Forms.PrintPreviewDialog()
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog()
+        Me.ToolFensterZurücksetzenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -77,7 +79,7 @@ Partial Class frmSuche
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuDatei, Me.EinstellungenToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuDatei, Me.EinstellungenToolStripMenuItem, Me.ToolFensterZurücksetzenToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(630, 24)
@@ -86,7 +88,7 @@ Partial Class frmSuche
         '
         'mnuDatei
         '
-        Me.mnuDatei.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuOpenDB, Me.DruckvorschauToolStripMenuItem, Me.TagesabschlußToolStripMenuItem})
+        Me.mnuDatei.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuOpenDB, Me.NeueDatenbankToolStripMenuItem, Me.DruckvorschauToolStripMenuItem, Me.TagesabschlußToolStripMenuItem})
         Me.mnuDatei.Name = "mnuDatei"
         Me.mnuDatei.Size = New System.Drawing.Size(46, 20)
         Me.mnuDatei.Text = "Datei"
@@ -96,6 +98,12 @@ Partial Class frmSuche
         Me.mnuOpenDB.Name = "mnuOpenDB"
         Me.mnuOpenDB.Size = New System.Drawing.Size(199, 22)
         Me.mnuOpenDB.Text = "Datenbank öffnen"
+        '
+        'NeueDatenbankToolStripMenuItem
+        '
+        Me.NeueDatenbankToolStripMenuItem.Name = "NeueDatenbankToolStripMenuItem"
+        Me.NeueDatenbankToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.NeueDatenbankToolStripMenuItem.Text = "Neue Datenbank"
         '
         'DruckvorschauToolStripMenuItem
         '
@@ -228,9 +236,15 @@ Partial Class frmSuche
         Me.PrintPreviewAbschluss.Name = "PrintPreviewAbschluss"
         Me.PrintPreviewAbschluss.Visible = False
         '
-        'OpenFileDialog1
+        'SaveFileDialog
         '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        Me.SaveFileDialog.Filter = "Access|*.accdb"
+        '
+        'ToolFensterZurücksetzenToolStripMenuItem
+        '
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Name = "ToolFensterZurücksetzenToolStripMenuItem"
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Size = New System.Drawing.Size(155, 20)
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Text = "Tool Fenster zurücksetzen"
         '
         'frmSuche
         '
@@ -283,5 +297,7 @@ Partial Class frmSuche
     Friend WithEvents PrintAbschluss As Printing.PrintDocument
     Friend WithEvents PrintPreviewAbschluss As PrintPreviewDialog
     Private WithEvents OpenFileDialog As OpenFileDialog
-    Friend WithEvents OpenFileDialog1 As OpenFileDialog
+    Friend WithEvents NeueDatenbankToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SaveFileDialog As SaveFileDialog
+    Friend WithEvents ToolFensterZurücksetzenToolStripMenuItem As ToolStripMenuItem
 End Class

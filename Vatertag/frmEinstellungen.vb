@@ -57,4 +57,14 @@
     Private Sub txtGrundPreis_TextChanged(sender As Object, e As EventArgs) Handles txtGrundPreis.TextChanged
 
     End Sub
+
+    Private Sub frmEinstellungen_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyCode = Keys.L Then
+            If Control.ModifierKeys = Keys.Shift + Keys.Control Then
+                Me.btnOk.Enabled = Not (Me.btnOk.Enabled)
+            End If
+        End If
+    End Sub
+
+
 End Class

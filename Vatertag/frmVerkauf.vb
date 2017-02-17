@@ -2,6 +2,7 @@
 'Option Strict On
 
 Imports System
+Imports System.ComponentModel
 Imports System.Data
 Imports System.Data.OleDb
 Imports System.Threading
@@ -149,6 +150,7 @@ Public Class frmVerkauf
             AddLog(LogText, IIf(sender.Text = "OK", True, False))
             frmSuche.Clear()
             frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
+            frmSuche.Enabled = True
             Me.Hide()
         End If
     End Sub
@@ -157,5 +159,13 @@ Public Class frmVerkauf
 
     Private Sub lblNr_TextChanged(sender As Object, e As EventArgs) Handles lblNr.TextChanged
         frmInfo.SetInfoText("Scheiben für Nummer: " & lblNr.Text)
+    End Sub
+
+    Private Sub frmVerkauf_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        frmSuche.Enabled = False
+    End Sub
+
+    Private Sub frmVerkauf_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        frmSuche.Enabled = True
     End Sub
 End Class

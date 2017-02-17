@@ -51,6 +51,7 @@ Partial Class frmTop10
         Me.Controls.Add(Me.rtfRangliste)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow
         Me.Name = "frmTop10"
+        Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Rangliste"
         Me.ResumeLayout(False)

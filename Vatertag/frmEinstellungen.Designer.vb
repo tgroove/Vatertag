@@ -39,7 +39,7 @@ Partial Class frmEinstellungen
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(42, 95)
+        Me.Label1.Location = New System.Drawing.Point(13, 42)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(92, 16)
         Me.Label1.TabIndex = 0
@@ -49,7 +49,7 @@ Partial Class frmEinstellungen
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(42, 68)
+        Me.Label2.Location = New System.Drawing.Point(13, 15)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(84, 16)
         Me.Label2.TabIndex = 0
@@ -59,7 +59,7 @@ Partial Class frmEinstellungen
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(42, 123)
+        Me.Label3.Location = New System.Drawing.Point(13, 70)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(75, 16)
         Me.Label3.TabIndex = 0
@@ -68,7 +68,7 @@ Partial Class frmEinstellungen
         'txtGrundPreis
         '
         Me.txtGrundPreis.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtGrundPreis.Location = New System.Drawing.Point(149, 65)
+        Me.txtGrundPreis.Location = New System.Drawing.Point(120, 12)
         Me.txtGrundPreis.Name = "txtGrundPreis"
         Me.txtGrundPreis.Size = New System.Drawing.Size(43, 22)
         Me.txtGrundPreis.TabIndex = 1
@@ -78,10 +78,10 @@ Partial Class frmEinstellungen
         'txtScheibenPreis
         '
         Me.txtScheibenPreis.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtScheibenPreis.Location = New System.Drawing.Point(149, 92)
+        Me.txtScheibenPreis.Location = New System.Drawing.Point(120, 39)
         Me.txtScheibenPreis.Name = "txtScheibenPreis"
         Me.txtScheibenPreis.Size = New System.Drawing.Size(43, 22)
-        Me.txtScheibenPreis.TabIndex = 1
+        Me.txtScheibenPreis.TabIndex = 2
         Me.txtScheibenPreis.Text = "1,00"
         Me.txtScheibenPreis.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -89,19 +89,19 @@ Partial Class frmEinstellungen
         '
         Me.TextBox3.Enabled = False
         Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox3.Location = New System.Drawing.Point(149, 120)
+        Me.TextBox3.Location = New System.Drawing.Point(120, 67)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(43, 22)
-        Me.TextBox3.TabIndex = 1
+        Me.TextBox3.TabIndex = 3
         Me.TextBox3.Text = "1,00"
         Me.TextBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'btnOk
         '
-        Me.btnOk.Location = New System.Drawing.Point(263, 175)
+        Me.btnOk.Location = New System.Drawing.Point(234, 95)
         Me.btnOk.Name = "btnOk"
         Me.btnOk.Size = New System.Drawing.Size(75, 23)
-        Me.btnOk.TabIndex = 2
+        Me.btnOk.TabIndex = 5
         Me.btnOk.Text = "OK"
         Me.btnOk.UseVisualStyleBackColor = True
         '
@@ -109,10 +109,10 @@ Partial Class frmEinstellungen
         '
         Me.GroupBox1.Controls.Add(Me.rdoAuswertung)
         Me.GroupBox1.Controls.Add(Me.rdoVerkauf)
-        Me.GroupBox1.Location = New System.Drawing.Point(236, 65)
+        Me.GroupBox1.Location = New System.Drawing.Point(207, 12)
         Me.GroupBox1.Name = "GroupBox1"
         Me.GroupBox1.Size = New System.Drawing.Size(140, 77)
-        Me.GroupBox1.TabIndex = 3
+        Me.GroupBox1.TabIndex = 4
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Modus"
         '
@@ -142,7 +142,7 @@ Partial Class frmEinstellungen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(407, 219)
+        Me.ClientSize = New System.Drawing.Size(366, 128)
         Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.btnOk)
         Me.Controls.Add(Me.TextBox3)
@@ -152,7 +152,9 @@ Partial Class frmEinstellungen
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.Label1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.KeyPreview = True
         Me.Name = "frmEinstellungen"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Einstellungen"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()

@@ -142,7 +142,7 @@ Partial Class frmVerkauf
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(509, 419)
+        Me.ClientSize = New System.Drawing.Size(509, 259)
         Me.Controls.Add(Me.txtBetragNeu)
         Me.Controls.Add(Me.txtScheibenNeu)
         Me.Controls.Add(Me.lblNr)
@@ -155,7 +155,7 @@ Partial Class frmVerkauf
         Me.Controls.Add(Me.txtName)
         Me.Name = "frmVerkauf"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
-        Me.Text = "Teilnehmer"
+        Me.Text = "Verkauf"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

@@ -8,6 +8,7 @@
         For n = 0 To 3
             LogLine(n) = LogLine(n + 1)
         Next
+        LogEntry = LogEntry.Replace("\", "\\")
         LogLine(4) = IIf(red, "\cf2", "\cf1") & vbCrLf & LogEntry & "\line"
         LogText = "{\rtf1 Guten Tag! \line {\i Dies} ist \b{\i ein \i0 formatierter \b0Text}. \par \i0 Das \b0Ende. }"
 

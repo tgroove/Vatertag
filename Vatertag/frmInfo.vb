@@ -6,12 +6,16 @@
         If Val(a(0)) > 0 Then
             a(0) = "{\b\cf2 " & a(0) & "}\b0\cf1 "
         End If
-        a(UBound(a)) = "{\b\cf2 " & a(UBound(a)) & "}\b0\cf1"
+        If Val(a(UBound(a))) > 0 Then
+            a(UBound(a)) = "{\b\cf2 " & a(UBound(a)) & "}\b0\cf1"
+        End If
         For i = 0 To UBound(a)
             rtf = rtf & a(i) & " "
         Next
-
-        rtbInfo.Rtf = rtf
+        If rtbInfo.Rtf <> rtf Then
+            rtbInfo2.Rtf = rtbInfo.Rtf.Replace("\fs50", "\fs30")
+            rtbInfo.Rtf = rtf
+        End If
     End Sub
 
 End Class

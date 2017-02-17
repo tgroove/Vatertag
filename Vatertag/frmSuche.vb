@@ -142,6 +142,7 @@ Public Class frmSuche
             connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileName & "; OLE DB Services=-1"
             PopulateList()
             frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
+            AddLog("Datenbank: " & FileName, False)
         End If
 
     End Sub
@@ -525,6 +526,73 @@ Public Class frmSuche
 
         PrintPreviewAbschluss.WindowState = FormWindowState.Maximized
         PrintPreviewAbschluss.ShowDialog()
+
+    End Sub
+
+
+    Private Sub NeueDatenbankToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NeueDatenbankToolStripMenuItem.Click
+        Dim filename As String
+        SaveFileDialog.FileName = "Vatertagschießen " & Format(Now(), "yyyy") & ".accdb"
+        SaveFileDialog.ShowDialog()
+        filename = SaveFileDialog.FileName
+
+        'File.WriteAllBytes(filename, My.Resources.VatertagLeer)
+        'File.WriteAllBytes(filename, My.Resources.VatertagLeer)
+        Dim Assembly As Reflection.Assembly = Reflection.Assembly.GetExecutingAssembly
+        Dim s As IO.Stream = Assembly.GetManifestResourceStream(Me.GetType, "VatertagLeer.accdb")
+
+        Dim file As System.IO.FileStream = New System.IO.FileStream(filename, IO.FileMode.Create)
+        Using (file)
+            Dim buf(4096) As Byte
+            Dim bytesRead As Integer = 0
+            bytesRead = s.Read(buf, 0, buf.Length())
+            While (bytesRead > 0)
+                file.Write(buf, 0, bytesRead)
+                bytesRead = s.Read(buf, 0, buf.Length())
+            End While
+        End Using
+
+        file = Nothing
+
+        connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & filename & "; OLE DB Services=-1"
+        Dim queryString As String = "ALTER TABLE Kunden AUTO_INCREMENT = 1"
+        queryString = "ALTER TABLE Kunden ALTER COLUMN ID COUNTER (1)"
+        Using connection As New OleDbConnection(connectionString)
+            Dim command2 As New OleDbCommand(queryString, connection)
+            Try
+                connection.Open()
+                command2.ExecuteNonQuery()
+                AddLog("Neue Datenbank angelegt: '" & filename & "'", True)
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+        End Using
+    End Sub
+
+    Private Sub frmSuche_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        'frmTop10.BringToFront()
+        'frmInfo.BringToFront()
+        'frmTop10.TopMost = False
+        'frmInfo.TopMost = False
+        'Me.BringToFront()
+    End Sub
+
+    Private Sub ToolFensterZurücksetzenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ToolFensterZurücksetzenToolStripMenuItem.Click
+        frmInfo.StartPosition = FormStartPosition.Manual
+        frmInfo.Location = New Point(10, 10)
+        If mode = "Verkauf" Then
+            frmInfo.Show()
+            frmInfo.BringToFront()
+            PopulateList()
+        End If
+
+        Dim desktopSize As Size
+        desktopSize = System.Windows.Forms.SystemInformation.PrimaryMonitorSize
+
+        frmTop10.StartPosition = FormStartPosition.Manual
+        frmTop10.Location = New Point(desktopSize.Width - frmTop10.Width - 10, 10)
+        frmTop10.Show()
+        frmTop10.BringToFront()
 
     End Sub
 End Class

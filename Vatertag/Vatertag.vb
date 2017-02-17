@@ -198,24 +198,27 @@ Module Vatertag
     End Function
 
 
-    Public Function ExtractResourceToDisk(ByVal ResourceName As String, ByVal FileToExtractTo As String) As Boolean
+    'Public Function ExtractResourceToDisk(ByVal ResourceName As String, ByVal FileToExtractTo As String) As Boolean
 
-        Dim s As System.IO.Stream = System.Reflection.Assembly.GetExecutingAssembly.GetManifestResourceStream(ResourceName)
-        Dim ResourceFile As New System.IO.FileStream(FileToExtractTo, IO.FileMode.Create)
+    '    Dim s As System.IO.Stream = System.Reflection.Assembly.GetExecutingAssembly.GetManifestResourceStream(ResourceName)
+    '    'Dim Exeassembly As System.Reflection.Assembly = Assembly.GetExecutingAssembly
+    '    'Dim ResourceFile As New System.IO.FileStream(FileToExtractTo, IO.FileMode.Create)
 
-        'Stream Res = assembly.GetManifestResourceStream(scope, resname);
-        Dim file As System.IO.FileStream = New System.IO.FileStream(FileToExtractTo, IO.FileMode.Create)
-        Using (file)
-            Dim buf(4096) As Byte
-            Dim bytesRead As Integer = 0
-            bytesRead = s.Read(buf, 0, buf.Length())
-            While (bytesRead > 0)
-                file.Write(buf, 0, bytesRead)
-                bytesRead = s.Read(buf, 0, buf.Length())
-            End While
-        End Using
+    '    'Stream Res = assembly.GetManifestResourceStream(scope, resname);
+    '    's = Exeassembly.GetManifestResourceStream(Mynamespace + "." + ResourceName)
+    '    's = (System.Reflection.Assembly.GetExecutingAssemblyGetManifestResourceStream("count_down.Big Brovaz - Nu Flow.mp3"))
+    '    Dim file As System.IO.FileStream = New System.IO.FileStream(FileToExtractTo, IO.FileMode.Create)
+    '    Using (file)
+    '        Dim buf(4096) As Byte
+    '        Dim bytesRead As Integer = 0
+    '        bytesRead = s.Read(buf, 0, buf.Length())
+    '        While (bytesRead > 0)
+    '            file.Write(buf, 0, bytesRead)
+    '            bytesRead = s.Read(buf, 0, buf.Length())
+    '        End While
+    '    End Using
 
-        ResourceFile = Nothing
-        ExtractResourceToDisk = True
-    End Function
+    '    file = Nothing
+    '    ExtractResourceToDisk = True
+    'End Function
 End Module
