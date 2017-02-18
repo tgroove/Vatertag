@@ -191,6 +191,8 @@ Public Class frmErgebnisse
             Me.Hide()
         End If
 
+        frmTop10.tmrRangliste.Interval = 250
+
     End Sub
 
     Private Sub lblErg1_Click(sender As Object, e As EventArgs) Handles lblErg1.Click

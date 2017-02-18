@@ -32,6 +32,7 @@ Partial Class frmVerkauf
         Me.txtScheibenNeu = New System.Windows.Forms.TextBox()
         Me.txtBetragNeu = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.lblRest = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'txtName
@@ -138,11 +139,23 @@ Partial Class frmVerkauf
         Me.Label4.TabIndex = 2
         Me.Label4.Text = "Kaufen:"
         '
+        'lblRest
+        '
+        Me.lblRest.AutoSize = True
+        Me.lblRest.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRest.Location = New System.Drawing.Point(204, 212)
+        Me.lblRest.Name = "lblRest"
+        Me.lblRest.Size = New System.Drawing.Size(57, 18)
+        Me.lblRest.TabIndex = 6
+        Me.lblRest.Text = "Label5"
+        Me.lblRest.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
         'frmVerkauf
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(509, 259)
+        Me.Controls.Add(Me.lblRest)
         Me.Controls.Add(Me.txtBetragNeu)
         Me.Controls.Add(Me.txtScheibenNeu)
         Me.Controls.Add(Me.lblNr)
@@ -171,4 +184,5 @@ Partial Class frmVerkauf
     Friend WithEvents txtScheibenNeu As TextBox
     Friend WithEvents txtBetragNeu As TextBox
     Friend WithEvents Label4 As Label
+    Friend WithEvents lblRest As Label
 End Class

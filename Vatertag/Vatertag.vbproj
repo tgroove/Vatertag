@@ -182,6 +182,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\folder_Open_16xLG.png" />
+    <None Include="Resources\OpenPH.bmp" />
+    <None Include="Resources\printer_16xLG.png" />
+    <None Include="Resources\graph_highPerformanceComputingChart_5170_16xLG.png" />
+    <None Include="Resources\NewTable_5619.png" />
+    <None Include="Resources\NewFile_6276.png" />
+    <None Include="Resources\gear_32xLG.png" />
+    <None Include="Resources\refresh_16xLG.png" />
     <Content Include="TELLCOMP.BMP">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

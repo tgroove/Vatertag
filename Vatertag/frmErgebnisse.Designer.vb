@@ -225,6 +225,7 @@ Partial Class frmErgebnisse
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.lblNr)
         Me.Name = "frmErgebnisse"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Ergebnisse"
         Me.ResumeLayout(False)
         Me.PerformLayout()

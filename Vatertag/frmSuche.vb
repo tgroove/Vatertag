@@ -134,15 +134,16 @@ Public Class frmSuche
         OpenFileDialog.CheckFileExists = True
         OpenFileDialog.InitialDirectory = FileName
         OpenFileDialog.FileName = Path.GetFileName(FileName)
-        OpenFileDialog.ShowDialog()
-        FileName = OpenFileDialog.FileName
-        frmTop10.tmrRangliste.Enabled = True
-        If OpenFileDialog.FileName <> "" Then
-            My.Settings.lastFile = FileName
-            connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileName & "; OLE DB Services=-1"
-            PopulateList()
-            frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
-            AddLog("Datenbank: " & FileName, False)
+        If OpenFileDialog.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            FileName = OpenFileDialog.FileName
+            frmTop10.tmrRangliste.Enabled = True
+            If OpenFileDialog.FileName <> "" Then
+                My.Settings.lastFile = FileName
+                connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileName & "; OLE DB Services=-1"
+                PopulateList()
+                frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
+                AddLog("Datenbank: " & FileName, False)
+            End If
         End If
 
     End Sub
@@ -171,7 +172,7 @@ Public Class frmSuche
         frmInfo.StartPosition = FormStartPosition.Manual
         frmInfo.Location = New Point(10, 10)
         If mode = "Verkauf" Then frmInfo.Show()
-        frmInfo.SetInfoText("Keine Datenbank geladen")
+        frmInfo.SetInfoText("Keine Datenbank geladen.")
 
         frmTop10.StartPosition = FormStartPosition.Manual
         frmTop10.Location = New Point(desktopSize.Width - frmTop10.Width - 10, 10)
@@ -305,9 +306,11 @@ Public Class frmSuche
     Private Sub PrintDocument_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintErgebnisse.PrintPage
         Dim fontHead As New Font("Arial", 36)
         Dim fontReg As New Font("Arial", 14)
+        Dim fontNr As New Font("Arial", 10)
 
         Dim x As Integer
         Dim y As Integer
+        Dim dy As Single
         Dim x2 As Integer
         Dim p1 As Point
         Dim p2 As Point
@@ -329,6 +332,7 @@ Public Class frmSuche
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
+            Dim stringSize As New SizeF
             Try
                 connection.Open()
                 Dim dataReader As OleDbDataReader =
@@ -351,10 +355,10 @@ Public Class frmSuche
                 End If
 
                 Do While dataReader.Read()
-                    Erg = dataReader(3).ToString & "  " _
-                        & dataReader(4).ToString & "  " _
-                        & dataReader(5).ToString & "  " _
-                        & dataReader(6).ToString
+                    ''Erg = dataReader(3).ToString & "  " _
+                    '    & dataReader(4).ToString & "  " _
+                    '    & dataReader(5).ToString & "  " _
+                    '    & dataReader(6).ToString
                     n = n + 1
                     If n >= PrintFromDataSet Then
                         y = y + 30
@@ -362,6 +366,10 @@ Public Class frmSuche
                         e.Graphics.DrawString(dataReader(2).ToString, fontReg, Brushes.Black, x, y)
                         ' Name
                         e.Graphics.DrawString(dataReader(1).ToString, fontReg, Brushes.Black, x + 40, y)
+
+                        dy = e.Graphics.MeasureString("0", fontReg).Height - e.Graphics.MeasureString("0", fontNr).Height
+                        stringSize = e.Graphics.MeasureString(dataReader(1).ToString, fontReg)
+                        e.Graphics.DrawString("(" & dataReader(0).ToString & ")", fontNr, Brushes.Black, x + 40 + stringSize.Width, y + dy / 2 + 1)
                         ' Ergebnisse
                         e.Graphics.DrawString(dataReader(3).ToString, fontReg, Brushes.Black, x2, y)
                         e.Graphics.DrawString(dataReader(4).ToString, fontReg, Brushes.Black, x2 + 40, y)
@@ -533,40 +541,42 @@ Public Class frmSuche
     Private Sub NeueDatenbankToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NeueDatenbankToolStripMenuItem.Click
         Dim filename As String
         SaveFileDialog.FileName = "Vatertagschießen " & Format(Now(), "yyyy") & ".accdb"
-        SaveFileDialog.ShowDialog()
-        filename = SaveFileDialog.FileName
+        If SaveFileDialog.ShowDialog() = DialogResult.OK Then
+            filename = SaveFileDialog.FileName
 
-        'File.WriteAllBytes(filename, My.Resources.VatertagLeer)
-        'File.WriteAllBytes(filename, My.Resources.VatertagLeer)
-        Dim Assembly As Reflection.Assembly = Reflection.Assembly.GetExecutingAssembly
-        Dim s As IO.Stream = Assembly.GetManifestResourceStream(Me.GetType, "VatertagLeer.accdb")
+            'File.WriteAllBytes(filename, My.Resources.VatertagLeer)
+            'File.WriteAllBytes(filename, My.Resources.VatertagLeer)
+            Dim Assembly As Reflection.Assembly = Reflection.Assembly.GetExecutingAssembly
+            Dim s As IO.Stream = Assembly.GetManifestResourceStream(Me.GetType, "VatertagLeer.accdb")
 
-        Dim file As System.IO.FileStream = New System.IO.FileStream(filename, IO.FileMode.Create)
-        Using (file)
-            Dim buf(4096) As Byte
-            Dim bytesRead As Integer = 0
-            bytesRead = s.Read(buf, 0, buf.Length())
-            While (bytesRead > 0)
-                file.Write(buf, 0, bytesRead)
+            Dim file As System.IO.FileStream = New System.IO.FileStream(filename, IO.FileMode.Create)
+            Using (file)
+                Dim buf(4096) As Byte
+                Dim bytesRead As Integer = 0
                 bytesRead = s.Read(buf, 0, buf.Length())
-            End While
-        End Using
+                While (bytesRead > 0)
+                    file.Write(buf, 0, bytesRead)
+                    bytesRead = s.Read(buf, 0, buf.Length())
+                End While
+            End Using
 
-        file = Nothing
+            file = Nothing
 
-        connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & filename & "; OLE DB Services=-1"
-        Dim queryString As String = "ALTER TABLE Kunden AUTO_INCREMENT = 1"
-        queryString = "ALTER TABLE Kunden ALTER COLUMN ID COUNTER (1)"
-        Using connection As New OleDbConnection(connectionString)
-            Dim command2 As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                command2.ExecuteNonQuery()
-                AddLog("Neue Datenbank angelegt: '" & filename & "'", True)
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
-        End Using
+            connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & filename & "; OLE DB Services=-1"
+            Dim queryString As String = "ALTER TABLE Kunden AUTO_INCREMENT = 1"
+            queryString = "ALTER TABLE Kunden ALTER COLUMN ID COUNTER (1)"
+            Using connection As New OleDbConnection(connectionString)
+                Dim command2 As New OleDbCommand(queryString, connection)
+                Try
+                    connection.Open()
+                    command2.ExecuteNonQuery()
+                    AddLog("Neue Datenbank angelegt: '" & filename & "'", True)
+                    lstTeilnehmer.Items.Clear()
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+            End Using
+        End If
     End Sub
 
     Private Sub frmSuche_Activated(sender As Object, e As EventArgs) Handles Me.Activated

@@ -31,6 +31,7 @@ Public Class frmVerkauf
         txtScheibenNeu.Enabled = True
         txtBetragNeu.Enabled = True
         cmdTotal.Text = "Total"
+        lblRest.Text = ""
 
     End Sub
 
@@ -50,8 +51,16 @@ Public Class frmVerkauf
     Private Sub txtBetragNeu_TextChanged(sender As Object, e As EventArgs) Handles txtBetragNeu.TextChanged
         If Not (locked) Then
             locked = True
-            txtScheibenNeu.Text = CalculateScheibenByBetrag(Val(txtScheibenAlt.Text), Val(txtBetragNeu.Text))
+            Dim Scheiben As Single = CalculateScheibenByBetrag(Val(txtScheibenAlt.Text), Val(txtBetragNeu.Text))
+            txtScheibenNeu.Text = Fix(Scheiben)
             locked = False
+            If Fix(Scheiben) <> Scheiben Then
+                Dim Betrag As Single = CalculateBetragByScheiben(Val(txtScheibenAlt.Text), Fix(Scheiben))
+                lblRest.Text = Format(Betrag, "0.00") & "€" & vbLf & "Rest " & Format(Val(txtBetragNeu.Text) - Betrag, "0.00") & "€"
+            Else
+                lblRest.Text = ""
+            End If
+
         End If
 
     End Sub

@@ -154,7 +154,7 @@ Partial Class frmEinstellungen
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.KeyPreview = True
         Me.Name = "frmEinstellungen"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Einstellungen"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()

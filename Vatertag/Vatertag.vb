@@ -126,11 +126,11 @@ Module Vatertag
 
 
     Public Function CalculateBetragByScheiben(ScheibenAlt As Integer, ScheibenNeu As Integer) As Single
-        CalculateBetragByScheiben = CShort(IIf(ScheibenAlt = 0, Grundpreis, 0)) + ScheibenNeu * ScheibenPreis
+        CalculateBetragByScheiben = CSng(IIf(ScheibenAlt = 0, Grundpreis, 0)) + ScheibenNeu * ScheibenPreis
     End Function
 
     Public Function CalculateScheibenByBetrag(ScheibenAlt As Integer, BetragNeu As Integer) As Single
-        CalculateScheibenByBetrag = (BetragNeu - CShort(IIf(ScheibenAlt = 0, Grundpreis, 0))) * ScheibenPreis
+        CalculateScheibenByBetrag = (BetragNeu - CSng(IIf(ScheibenAlt = 0, Grundpreis, 0))) / ScheibenPreis
     End Function
 
     Public Sub UpdatePosition(ID As Integer, Platzierung As Integer)
