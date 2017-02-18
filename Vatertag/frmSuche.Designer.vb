@@ -55,6 +55,7 @@ Partial Class frmSuche
         '
         Me.txtTNummer.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTNummer.Location = New System.Drawing.Point(39, 37)
+        Me.txtTNummer.MaxLength = 3
         Me.txtTNummer.Name = "txtTNummer"
         Me.txtTNummer.Size = New System.Drawing.Size(40, 29)
         Me.txtTNummer.TabIndex = 0
@@ -63,6 +64,7 @@ Partial Class frmSuche
         '
         Me.txtTName.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTName.Location = New System.Drawing.Point(85, 37)
+        Me.txtTName.MaxLength = 256
         Me.txtTName.Name = "txtTName"
         Me.txtTName.Size = New System.Drawing.Size(303, 29)
         Me.txtTName.TabIndex = 1
@@ -269,6 +271,7 @@ Partial Class frmSuche
         Me.Controls.Add(Me.txtTName)
         Me.Controls.Add(Me.txtTNummer)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmSuche"

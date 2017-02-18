@@ -193,12 +193,36 @@ Public Class frmSuche
     End Sub
 
     Private Sub txtTNummer_KeyDown(sender As Object, e As KeyEventArgs) Handles txtTNummer.KeyDown
-        If e.KeyData = Keys.Enter Then
-            If lstTeilnehmer.Items.Count > 0 Then
-                lstTeilnehmer.SetSelected(0, True)
-                lstTeilnehmer.Focus()
-            End If
-        End If
+        Dim ascii As String
+        Debug.Print(e.KeyValue)
+        'If e.KeyValue = 72 Then Stop
+        Select Case e.KeyData
+            Case Keys.Enter
+                If lstTeilnehmer.Items.Count > 0 Then
+                    lstTeilnehmer.SetSelected(0, True)
+                    lstTeilnehmer.Focus()
+                End If
+            Case Keys.D0 To Keys.D9
+            Case Keys.A To Keys.Z
+                txtTName.Text = txtTName.Text & Chr(e.KeyValue + 32)
+                txtTName.SelectionStart = txtTName.Text.Length
+                txtTName.Focus()
+                e.Handled = True
+                e.SuppressKeyPress = True
+            Case (Keys.A Or Keys.Shift) To (Keys.Z Or Keys.Shift)
+                txtTName.Text = txtTName.Text & Chr(e.KeyValue)
+                txtTName.SelectionStart = txtTName.Text.Length
+                txtTName.Focus()
+                e.Handled = True
+                e.SuppressKeyPress = True
+                'Stop
+        End Select
+        '    If e.KeyData = Keys.Enter Then
+        '        If lstTeilnehmer.Items.Count > 0 Then
+        '            lstTeilnehmer.SetSelected(0, True)
+        '            lstTeilnehmer.Focus()
+        '        End If
+        '    End If
     End Sub
 
     Private Sub txtTName_KeyDown(sender As Object, e As KeyEventArgs) Handles txtTName.KeyDown
