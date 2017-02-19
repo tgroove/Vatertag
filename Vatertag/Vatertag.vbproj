@@ -190,9 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +221,7 @@
     <None Include="Vatertag_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\WindowRefresh8.ico" />
     <Content Include="Vatertag.ico" />
     <None Include="Resources\folder_Open_16xLG.png" />
     <None Include="Resources\OpenPH.bmp" />

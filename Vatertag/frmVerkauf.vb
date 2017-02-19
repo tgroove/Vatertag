@@ -28,6 +28,7 @@ Public Class frmVerkauf
         txtScheibenAlt.Text = data.Scheiben
         txtScheibenAlt.Tag = data.Scheiben
         txtScheibenNeu.Text = ""
+        txtBetragNeu.Text = ""
         txtScheibenNeu.Enabled = True
         txtBetragNeu.Enabled = True
         cmdTotal.Text = "Total"
@@ -54,9 +55,9 @@ Public Class frmVerkauf
             Dim Scheiben As Single = CalculateScheibenByBetrag(Val(txtScheibenAlt.Text), Val(txtBetragNeu.Text))
             txtScheibenNeu.Text = Fix(Scheiben)
             locked = False
-            If Fix(Scheiben) <> Scheiben Then
+            If (Fix(Scheiben) <> Scheiben) And (Fix(Scheiben) > 0) Then
                 Dim Betrag As Single = CalculateBetragByScheiben(Val(txtScheibenAlt.Text), Fix(Scheiben))
-                lblRest.Text = Format(Betrag, "0.00") & "€" & vbLf & "Rest " & Format(Val(txtBetragNeu.Text) - Betrag, "0.00") & "€"
+                lblRest.Text = Format(Betrag, "0.00") & "€" & vbLf & "Rest: " & Format(Val(txtBetragNeu.Text) - Betrag, "0.00") & "€"
             Else
                 lblRest.Text = ""
             End If
@@ -160,6 +161,8 @@ Public Class frmVerkauf
             frmSuche.Clear()
             frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
             frmSuche.Enabled = True
+            frmSuche.BringToFront()
+            frmSuche.txtTNummer.Focus()
             Me.Hide()
         End If
     End Sub
@@ -167,7 +170,7 @@ Public Class frmVerkauf
 
 
     Private Sub lblNr_TextChanged(sender As Object, e As EventArgs) Handles lblNr.TextChanged
-        frmInfo.SetInfoText("Scheiben für Nummer: " & lblNr.Text)
+        If Val(lblNr.Text) > 0 Then frmInfo.SetInfoText("Scheiben für Nummer: " & lblNr.Text)
     End Sub
 
     Private Sub frmVerkauf_Activated(sender As Object, e As EventArgs) Handles Me.Activated
@@ -177,4 +180,6 @@ Public Class frmVerkauf
     Private Sub frmVerkauf_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         frmSuche.Enabled = True
     End Sub
+
+
 End Class

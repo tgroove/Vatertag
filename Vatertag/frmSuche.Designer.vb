@@ -46,8 +46,10 @@ Partial Class frmSuche
         Me.NeueDatenbankToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DruckvorschauToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TagesabschlußToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EinstellungenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolFensterZurücksetzenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EinstellungenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.BeendenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -90,7 +92,7 @@ Partial Class frmSuche
         '
         'mnuDatei
         '
-        Me.mnuDatei.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuOpenDB, Me.NeueDatenbankToolStripMenuItem, Me.DruckvorschauToolStripMenuItem, Me.TagesabschlußToolStripMenuItem})
+        Me.mnuDatei.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuOpenDB, Me.NeueDatenbankToolStripMenuItem, Me.DruckvorschauToolStripMenuItem, Me.TagesabschlußToolStripMenuItem, Me.ToolStripMenuItem1, Me.BeendenToolStripMenuItem})
         Me.mnuDatei.Name = "mnuDatei"
         Me.mnuDatei.Size = New System.Drawing.Size(46, 20)
         Me.mnuDatei.Text = "Datei"
@@ -240,6 +242,13 @@ Partial Class frmSuche
         Me.TagesabschlußToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
         Me.TagesabschlußToolStripMenuItem.Text = "Tagesabschluß drucken"
         '
+        'ToolFensterZurücksetzenToolStripMenuItem
+        '
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.WindowRefresh8
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Name = "ToolFensterZurücksetzenToolStripMenuItem"
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Size = New System.Drawing.Size(28, 20)
+        '
         'EinstellungenToolStripMenuItem
         '
         Me.EinstellungenToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
@@ -247,12 +256,16 @@ Partial Class frmSuche
         Me.EinstellungenToolStripMenuItem.Name = "EinstellungenToolStripMenuItem"
         Me.EinstellungenToolStripMenuItem.Size = New System.Drawing.Size(28, 20)
         '
-        'ToolFensterZurücksetzenToolStripMenuItem
+        'ToolStripMenuItem1
         '
-        Me.ToolFensterZurücksetzenToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.ToolFensterZurücksetzenToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.refresh_16xLG
-        Me.ToolFensterZurücksetzenToolStripMenuItem.Name = "ToolFensterZurücksetzenToolStripMenuItem"
-        Me.ToolFensterZurücksetzenToolStripMenuItem.Size = New System.Drawing.Size(28, 20)
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(196, 6)
+        '
+        'BeendenToolStripMenuItem
+        '
+        Me.BeendenToolStripMenuItem.Name = "BeendenToolStripMenuItem"
+        Me.BeendenToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.BeendenToolStripMenuItem.Text = "Beenden"
         '
         'frmSuche
         '
@@ -309,4 +322,6 @@ Partial Class frmSuche
     Friend WithEvents NeueDatenbankToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SaveFileDialog As SaveFileDialog
     Friend WithEvents ToolFensterZurücksetzenToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem1 As ToolStripSeparator
+    Friend WithEvents BeendenToolStripMenuItem As ToolStripMenuItem
 End Class

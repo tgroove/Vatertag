@@ -37,6 +37,7 @@ Partial Class frmVerkauf
         '
         'txtName
         '
+        Me.txtName.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.txtName.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtName.Location = New System.Drawing.Point(105, 38)
         Me.txtName.Name = "txtName"
@@ -108,7 +109,7 @@ Partial Class frmVerkauf
         Me.lblNr.Name = "lblNr"
         Me.lblNr.Size = New System.Drawing.Size(30, 24)
         Me.lblNr.TabIndex = 5
-        Me.lblNr.Text = "12"
+        Me.lblNr.Text = "xx"
         Me.lblNr.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'txtScheibenNeu
@@ -142,10 +143,10 @@ Partial Class frmVerkauf
         'lblRest
         '
         Me.lblRest.AutoSize = True
-        Me.lblRest.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRest.Location = New System.Drawing.Point(204, 212)
+        Me.lblRest.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRest.Location = New System.Drawing.Point(203, 205)
         Me.lblRest.Name = "lblRest"
-        Me.lblRest.Size = New System.Drawing.Size(57, 18)
+        Me.lblRest.Size = New System.Drawing.Size(57, 20)
         Me.lblRest.TabIndex = 6
         Me.lblRest.Text = "Label5"
         Me.lblRest.TextAlign = System.Drawing.ContentAlignment.TopRight
@@ -167,7 +168,7 @@ Partial Class frmVerkauf
         Me.Controls.Add(Me.cmdTotal)
         Me.Controls.Add(Me.txtName)
         Me.Name = "frmVerkauf"
-        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Verkauf"
         Me.ResumeLayout(False)
         Me.PerformLayout()

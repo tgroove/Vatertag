@@ -179,6 +179,12 @@ Public Class frmSuche
         frmTop10.Show()
         frmTop10.tmrRangliste.Enabled = True
 
+        Me.StartPosition = FormStartPosition.Manual
+        Dim x, y As Integer
+        x = (frmTop10.Location.X - Me.Width) / 3 * 2
+        y = (desktopSize.Height - frmInfo.Location.Y - frmInfo.Height - Me.Height) / 3 + frmInfo.Location.Y + frmInfo.Height
+        Me.Location = New Point(x, y)
+
     End Sub
 
     Private Sub txtTName_TextChanged(sender As Object, e As EventArgs) Handles txtTName.TextChanged
@@ -628,5 +634,15 @@ Public Class frmSuche
         frmTop10.Show()
         frmTop10.BringToFront()
 
+    End Sub
+
+
+
+    Private Sub ToolFensterZurücksetzenToolStripMenuItem_MouseUp(sender As Object, e As MouseEventArgs) Handles ToolFensterZurücksetzenToolStripMenuItem.MouseUp
+        Me.Focus()
+    End Sub
+
+    Private Sub BeendenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BeendenToolStripMenuItem.Click
+        Application.Exit()
     End Sub
 End Class

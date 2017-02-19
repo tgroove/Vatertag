@@ -66,25 +66,14 @@ Public Class frmTop10
         tmrRangliste.Enabled = True
     End Sub
 
-    Private Sub txtRangliste_TextChanged(sender As Object, e As EventArgs)
-
-
-
-    End Sub
-
-    Private Sub frmTop10_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
 
     Private Sub frmTop10_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        e.Cancel = True
+        'e.Cancel = True
     End Sub
+
 
     Private Sub frmTop10_ResizeEnd(sender As Object, e As EventArgs) Handles Me.ResizeEnd
         rtfRangliste.Height = Me.Height - 55
     End Sub
 
-    Private Sub rtfRangliste_TextChanged(sender As Object, e As EventArgs) Handles rtfRangliste.TextChanged
-
-    End Sub
 End Class
