@@ -63,6 +63,16 @@ Namespace My.Resources
         '''<summary>
         '''  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         '''</summary>
+        Friend ReadOnly Property Calculator_16xLG() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("Calculator_16xLG", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        '''</summary>
         Friend ReadOnly Property folder_Open_16xLG() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("folder_Open_16xLG", resourceCulture)
@@ -86,6 +96,16 @@ Namespace My.Resources
         Friend ReadOnly Property graph_highPerformanceComputingChart_5170_16xLG() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("graph_highPerformanceComputingChart_5170_16xLG", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property ListTime_16x() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("ListTime_16x", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property
@@ -146,6 +166,16 @@ Namespace My.Resources
         Friend ReadOnly Property WindowRefresh8() As System.Drawing.Bitmap
             Get
                 Dim obj As Object = ResourceManager.GetObject("WindowRefresh8", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        '''</summary>
+        Friend ReadOnly Property WindowRefresh81() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("WindowRefresh81", resourceCulture)
                 Return CType(obj,System.Drawing.Bitmap)
             End Get
         End Property

@@ -144,6 +144,7 @@ Partial Class frmVerkauf
         '
         Me.lblRest.AutoSize = True
         Me.lblRest.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRest.ForeColor = System.Drawing.Color.Red
         Me.lblRest.Location = New System.Drawing.Point(203, 205)
         Me.lblRest.Name = "lblRest"
         Me.lblRest.Size = New System.Drawing.Size(57, 20)

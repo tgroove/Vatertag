@@ -52,12 +52,12 @@ Public Class frmVerkauf
     Private Sub txtBetragNeu_TextChanged(sender As Object, e As EventArgs) Handles txtBetragNeu.TextChanged
         If Not (locked) Then
             locked = True
-            Dim Scheiben As Single = CalculateScheibenByBetrag(Val(txtScheibenAlt.Text), Val(txtBetragNeu.Text))
+            Dim Scheiben As Single = CalculateScheibenByBetrag(Val(txtScheibenAlt.Text), Val(txtBetragNeu.Text.Replace(",", ".")))
             txtScheibenNeu.Text = Fix(Scheiben)
             locked = False
             If (Fix(Scheiben) <> Scheiben) And (Fix(Scheiben) > 0) Then
                 Dim Betrag As Single = CalculateBetragByScheiben(Val(txtScheibenAlt.Text), Fix(Scheiben))
-                lblRest.Text = Format(Betrag, "0.00") & "€" & vbLf & "Rest: " & Format(Val(txtBetragNeu.Text) - Betrag, "0.00") & "€"
+                lblRest.Text = Format(Betrag, "0.00") & "€" & vbLf & "Rest: " & Format(Val(txtBetragNeu.Text.Replace(",", ".")) - Betrag, "0.00") & "€"
             Else
                 lblRest.Text = ""
             End If
@@ -69,17 +69,41 @@ Public Class frmVerkauf
 
 
     Private Sub txtScheibenNeu_KeyDown(sender As Object, e As KeyEventArgs) Handles txtScheibenNeu.KeyDown
-        If e.KeyData = Keys.Enter Then cmdTotal.Focus()
+        Select Case e.KeyData
+            Case Keys.D0 To Keys.D9
+            Case Keys.NumPad0 To Keys.NumPad9
+            'Case Keys.Decimal, Keys.OemPeriod
+            Case Keys.Delete, Keys.Back
+            'Case Keys.Separator
+            Case Keys.Enter, Keys.Return
+                cmdTotal.Focus()
+            Case Else
+                e.Handled = True
+                e.SuppressKeyPress = True
+        End Select
     End Sub
 
     Private Sub txtBetragNeu_KeyDown(sender As Object, e As KeyEventArgs) Handles txtBetragNeu.KeyDown
-        If e.KeyData = Keys.Enter Then cmdTotal.Focus()
+        Select Case e.KeyData
+            Case Keys.D0 To Keys.D9
+            Case Keys.NumPad0 To Keys.NumPad9
+            Case Keys.Decimal, Keys.OemPeriod
+            Case Keys.Delete, Keys.Back
+            Case Keys.Separator
+            Case 188    ' Komma
+            Case Keys.Enter, Keys.Return
+                cmdTotal.Focus()
+            Case Else
+                Debug.Print(e.KeyData)
+                e.Handled = True
+                e.SuppressKeyPress = True
+        End Select
     End Sub
 
     Private Sub txtBetragNeu_LostFocus(sender As Object, e As EventArgs) Handles txtBetragNeu.LostFocus
         If Not (locked) Then
             locked = True
-            txtBetragNeu.Text = Format(Val(txtBetragNeu.Text), "0.00")
+            txtBetragNeu.Text = Format(Val(txtBetragNeu.Text.Replace(",", ".")), "0.00")
             locked = False
         End If
     End Sub

@@ -222,6 +222,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WindowRefresh8.ico" />
+    <None Include="Resources\Calculator_16xLG.png" />
+    <None Include="Resources\ListTime_16x.png" />
     <Content Include="Vatertag.ico" />
     <None Include="Resources\folder_Open_16xLG.png" />
     <None Include="Resources\OpenPH.bmp" />

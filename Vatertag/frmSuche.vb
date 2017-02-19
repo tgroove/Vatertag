@@ -12,6 +12,28 @@ Public Class frmSuche
     Private PrintFromDataSet As Integer
     Private Ergebnis As String
 
+
+    Private Sub openDB()
+        Dim FileName As String = My.Settings.lastFile
+        If Dir(FileName) = "" Then filename = ""
+        frmTop10.tmrRangliste.Enabled = False
+        OpenFileDialog.CheckFileExists = True
+        OpenFileDialog.InitialDirectory = FileName
+        OpenFileDialog.FileName = Path.GetFileName(FileName)
+
+        If OpenFileDialog.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
+            FileName = OpenFileDialog.FileName
+            frmTop10.tmrRangliste.Enabled = True
+            If OpenFileDialog.FileName <> "" Then
+                My.Settings.lastFile = FileName
+                connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileName & "; OLE DB Services=-1"
+                PopulateList()
+                frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
+                AddLog("Datenbank: " & FileName, False)
+            End If
+        End If
+    End Sub
+
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnNeu.Click
         'Dim connStr, objConn
         '        Dim connectionString As String =
@@ -25,8 +47,7 @@ Public Class frmSuche
             Dim command As New OleDbCommand(queryString, connection)
             Try
                 connection.Open()
-                Dim dataReader As OleDbDataReader =
-                 command.ExecuteReader()
+                Dim dataReader As OleDbDataReader = command.ExecuteReader()
                 Dim TlnNr As Integer
                 If dataReader.HasRows Then
 
@@ -129,23 +150,7 @@ Public Class frmSuche
     End Sub
 
     Private Sub mnuOpenDB_Click(sender As Object, e As EventArgs) Handles mnuOpenDB.Click
-        Dim FileName As String = My.Settings.lastFile
-        frmTop10.tmrRangliste.Enabled = False
-        OpenFileDialog.CheckFileExists = True
-        OpenFileDialog.InitialDirectory = FileName
-        OpenFileDialog.FileName = Path.GetFileName(FileName)
-        If OpenFileDialog.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
-            FileName = OpenFileDialog.FileName
-            frmTop10.tmrRangliste.Enabled = True
-            If OpenFileDialog.FileName <> "" Then
-                My.Settings.lastFile = FileName
-                connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & FileName & "; OLE DB Services=-1"
-                PopulateList()
-                frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
-                AddLog("Datenbank: " & FileName, False)
-            End If
-        End If
-
+        openDB()
     End Sub
 
     Private Sub frmSuche_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -184,7 +189,8 @@ Public Class frmSuche
         x = (frmTop10.Location.X - Me.Width) / 3 * 2
         y = (desktopSize.Height - frmInfo.Location.Y - frmInfo.Height - Me.Height) / 3 + frmInfo.Location.Y + frmInfo.Height
         Me.Location = New Point(x, y)
-
+        Me.Show()
+        openDB()
     End Sub
 
     Private Sub txtTName_TextChanged(sender As Object, e As EventArgs) Handles txtTName.TextChanged
@@ -377,7 +383,7 @@ Public Class frmSuche
                     e.Graphics.DrawString("Vatertagschießen " & Format(Now(), "yyyy"), fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
                     y = 50
                     e.Graphics.DrawString(Ergebnis, fontHead, Brushes.Black, x, y)
-                    e.Graphics.DrawString("Stand: " & Format(Now(), "HH:mm"), fontReg, Brushes.Black, x, y + 60)
+                    e.Graphics.DrawString("Stand: " & Format(Now(), "HH:mm"), fontReg, Brushes.Black, x + 25, y + 60)
                     e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 50, 0, 150, 135)
                     y = y + 70
                 Else
@@ -432,30 +438,30 @@ Public Class frmSuche
     End Sub
 
     Private Sub DruckenToolStripMenuItem_Click(sender As Object, e As EventArgs)
-        Dim docName As String = "Ergebnisse"
-        PrintErgebnisse.DocumentName = docName
-        PrintFromDataSet = 1
-        If vbYes = MsgBox("Handelt es sich um das Endergebnis?", vbQuestion + vbYesNo + vbDefaultButton2) Then
-            Ergebnis = "Endergebnis"
-        Else
-            Ergebnis = "Zwischenergebnis"
-        End If
+        'Dim docName As String = "Ergebnisse"
+        'PrintErgebnisse.DocumentName = docName
+        'PrintFromDataSet = 1
+        'If vbYes = MsgBox("Handelt es sich um das Endergebnis?", vbQuestion + vbYesNo + vbDefaultButton2) Then
+        '    Ergebnis = "Endergebnis"
+        'Else
+        '    Ergebnis = "Zwischenergebnis"
+        'End If
 
-        PrintErgebnisse.Print()
+        'PrintErgebnisse.Print()
 
     End Sub
 
     Private Sub DruckvorschauToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DruckvorschauToolStripMenuItem.Click
-        Dim docName As String = "Ergebnisse"
-        PrintErgebnisse.DocumentName = docName
-        PrintFromDataSet = 1
-        If vbYes = MsgBox("Handelt es sich um das Endergebnis?", vbQuestion + vbYesNo + vbDefaultButton2) Then
-            Ergebnis = "Endergebnis"
-        Else
-            Ergebnis = "Zwischenergebnis"
-        End If
-        PrintPreviewErgebnisse.WindowState = FormWindowState.Maximized
-        PrintPreviewErgebnisse.ShowDialog()
+        'Dim docName As String = "Ergebnisse"
+        'PrintErgebnisse.DocumentName = docName
+        'PrintFromDataSet = 1
+        'If vbYes = MsgBox("Handelt es sich um das Endergebnis?", vbQuestion + vbYesNo + vbDefaultButton2) Then
+        '    Ergebnis = "Endergebnis"
+        'Else
+        '    Ergebnis = "Zwischenergebnis"
+        'End If
+        'PrintPreviewErgebnisse.WindowState = FormWindowState.Maximized
+        'PrintPreviewErgebnisse.ShowDialog()
 
     End Sub
 
@@ -644,5 +650,31 @@ Public Class frmSuche
 
     Private Sub BeendenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BeendenToolStripMenuItem.Click
         Application.Exit()
+    End Sub
+
+    Private Sub EinstellungenToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles EinstellungenToolStripMenuItem1.Click
+        frmEinstellungen.Show()
+    End Sub
+
+    Private Sub ZwischenergebnisToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ZwischenergebnisToolStripMenuItem.Click
+        Dim docName As String = "Ergebnisse"
+        PrintErgebnisse.DocumentName = docName
+        PrintFromDataSet = 1
+        Ergebnis = "Zwischenergebnis"
+        'PrintErgebnisse.Print()
+        PrintPreviewErgebnisse.WindowState = FormWindowState.Maximized
+        PrintPreviewErgebnisse.ShowDialog()
+
+    End Sub
+
+    Private Sub EndergebnisToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EndergebnisToolStripMenuItem.Click
+        Dim docName As String = "Ergebnisse"
+        PrintErgebnisse.DocumentName = docName
+        PrintFromDataSet = 1
+        Ergebnis = "Endergebnis"
+        'PrintErgebnisse.Print()
+        PrintPreviewErgebnisse.WindowState = FormWindowState.Maximized
+        PrintPreviewErgebnisse.ShowDialog()
+
     End Sub
 End Class

@@ -23,6 +23,7 @@ Public Class frmTop10
 
 
         If connectionString = "" Then Exit Sub
+        'MsgBox(connectionString)
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)

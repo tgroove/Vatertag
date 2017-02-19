@@ -115,9 +115,9 @@ Public Class frmErgebnisse
         Select Case e.KeyData
             Case Keys.D0 To Keys.D9
             Case Keys.NumPad0 To Keys.NumPad9
-            Case Keys.Decimal, Keys.OemPeriod
+            'Case Keys.Decimal, Keys.OemPeriod
             Case Keys.Delete, Keys.Back
-            Case Keys.Separator
+            'Case Keys.Separator
             Case Keys.Enter, Keys.Return
                 If txtErgebnis.Text = "" Then
                     cmdOK.Focus()
@@ -128,6 +128,7 @@ Public Class frmErgebnisse
                 End If
             Case Else
                 e.Handled = True
+                e.SuppressKeyPress = True
         End Select
     End Sub
 
