@@ -12,6 +12,26 @@ Public Class frmSuche
     Private PrintFromDataSet As Integer
     Private Ergebnis As String
 
+    Private Sub FensterZurücksetzen()
+        frmInfo.StartPosition = FormStartPosition.Manual
+        frmInfo.Location = New Point(10, 10)
+        If mode = "Verkauf" Then
+            frmInfo.Show()
+            frmInfo.BringToFront()
+            PopulateList()
+        End If
+
+        Dim desktopSize As Size
+        desktopSize = System.Windows.Forms.SystemInformation.PrimaryMonitorSize
+
+        frmTop10.StartPosition = FormStartPosition.Manual
+        frmTop10.Location = New Point(desktopSize.Width - frmTop10.Width - 10, 10)
+        frmTop10.Show()
+        frmTop10.BringToFront()
+
+        Me.BringToFront()
+
+    End Sub
 
     Private Sub openDB()
         Dim FileName As String = My.Settings.lastFile
@@ -156,6 +176,7 @@ Public Class frmSuche
     Private Sub frmSuche_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ScheibenPreis = My.Settings.ScheibenPreis
         Grundpreis = My.Settings.GrundPreis
+        Veranstaltungsname = My.Settings.Veranstaltungsname
         Dim filename As String = My.Settings.lastFile
         If My.Settings.Mode = "Verkauf" Then
             mode = "Verkauf"
@@ -228,6 +249,8 @@ Public Class frmSuche
                 e.Handled = True
                 e.SuppressKeyPress = True
                 'Stop
+            Case Keys.Escape
+                FensterZurücksetzen()
         End Select
         '    If e.KeyData = Keys.Enter Then
         '        If lstTeilnehmer.Items.Count > 0 Then
@@ -311,6 +334,7 @@ Public Class frmSuche
         txtTName.Text = ""
         txtTNummer.Text = ""
         PopulateList()
+        txtTNummer.Focus()
     End Sub
 
 
@@ -380,7 +404,7 @@ Public Class frmSuche
                 If PrintFromDataSet = 1 Then
                     y = 0
                     StrFormat.Alignment = StringAlignment.Center
-                    e.Graphics.DrawString("Vatertagschießen " & Format(Now(), "yyyy"), fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
+                    e.Graphics.DrawString(Veranstaltungsname & " " & Format(Now(), "yyyy"), fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
                     y = 50
                     e.Graphics.DrawString(Ergebnis, fontHead, Brushes.Black, x, y)
                     e.Graphics.DrawString("Stand: " & Format(Now(), "HH:mm"), fontReg, Brushes.Black, x + 25, y + 60)
@@ -389,6 +413,14 @@ Public Class frmSuche
                 Else
                     y = 1
                 End If
+
+                y = y + 20
+
+                p1.X = x
+                p1.Y = y + 25
+                p2.X = x2 + 150
+                p2.Y = p1.Y
+                e.Graphics.DrawLine(Pens.Black, p1, p2)
 
                 Do While dataReader.Read()
                     ''Erg = dataReader(3).ToString & "  " _
@@ -502,7 +534,7 @@ Public Class frmSuche
                 If PrintFromDataSet = 1 Then
                     y = 0
                     StrFormat.Alignment = StringAlignment.Center
-                    e.Graphics.DrawString("Vatertagschießen " & Format(Now(), "yyyy"), fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
+                    e.Graphics.DrawString(Veranstaltungsname & " " & Format(Now(), "yyyy"), fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
                     y = 50
                     e.Graphics.DrawString("Abschluss", fontHead, Brushes.Black, x, y)
                     e.Graphics.DrawString("Stand: " & Format(Now(), "dd.MM.yyyy  HH:mm:ss"), fontReg, Brushes.Black, x, y + 60)
@@ -576,7 +608,7 @@ Public Class frmSuche
 
     Private Sub NeueDatenbankToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NeueDatenbankToolStripMenuItem.Click
         Dim filename As String
-        SaveFileDialog.FileName = "Vatertagschießen " & Format(Now(), "yyyy") & ".accdb"
+        SaveFileDialog.FileName = Veranstaltungsname & " " & Format(Now(), "yyyy") & ".accdb"
         If SaveFileDialog.ShowDialog() = DialogResult.OK Then
             filename = SaveFileDialog.FileName
 
@@ -624,25 +656,8 @@ Public Class frmSuche
     End Sub
 
     Private Sub ToolFensterZurücksetzenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ToolFensterZurücksetzenToolStripMenuItem.Click
-        frmInfo.StartPosition = FormStartPosition.Manual
-        frmInfo.Location = New Point(10, 10)
-        If mode = "Verkauf" Then
-            frmInfo.Show()
-            frmInfo.BringToFront()
-            PopulateList()
-        End If
-
-        Dim desktopSize As Size
-        desktopSize = System.Windows.Forms.SystemInformation.PrimaryMonitorSize
-
-        frmTop10.StartPosition = FormStartPosition.Manual
-        frmTop10.Location = New Point(desktopSize.Width - frmTop10.Width - 10, 10)
-        frmTop10.Show()
-        frmTop10.BringToFront()
-
+        FensterZurücksetzen()
     End Sub
-
-
 
     Private Sub ToolFensterZurücksetzenToolStripMenuItem_MouseUp(sender As Object, e As MouseEventArgs) Handles ToolFensterZurücksetzenToolStripMenuItem.MouseUp
         Me.Focus()

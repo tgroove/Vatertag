@@ -22,5 +22,8 @@
     <Setting Name="lastFile" Type="System.String" Scope="User">
       <Value Profile="(Default)">D:\Dropbox\Eigene Dateien\Vatertag.accdb</Value>
     </Setting>
+    <Setting Name="Veranstaltungsname" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Vatertagsschießen</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

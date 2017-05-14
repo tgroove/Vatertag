@@ -29,6 +29,7 @@ Module Vatertag
 
     Public ScheibenPreis As Single
     Public Grundpreis As Single
+    Public Veranstaltungsname As String
     Public mode As String
 
     Public Property connectionString As String

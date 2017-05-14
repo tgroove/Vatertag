@@ -104,11 +104,10 @@ Public Class frmErgebnisse
     End Sub
 
     Private Sub frmErgebnisse_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
-
-    Private Sub txtErgebnis_TextChanged(sender As Object, e As EventArgs) Handles txtErgebnis.TextChanged
-
+        ToolTip.SetToolTip(Me.lblErg1, "Doppelklick löscht Ergebnis")
+        ToolTip.SetToolTip(Me.lblErg2, "Doppelklick löscht Ergebnis")
+        ToolTip.SetToolTip(Me.lblErg3, "Doppelklick löscht Ergebnis")
+        ToolTip.SetToolTip(Me.lblErg4, "Doppelklick löscht Ergebnis")
     End Sub
 
     Private Sub txtErgebnis_KeyDown(sender As Object, e As KeyEventArgs) Handles txtErgebnis.KeyDown
@@ -228,4 +227,13 @@ Public Class frmErgebnisse
             UpdateWerte()
         End If
     End Sub
+
+    Private Sub frmErgebnisse_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyData = Keys.Escape Then
+            Me.Close()
+            frmSuche.Clear()
+        End If
+    End Sub
+
+
 End Class

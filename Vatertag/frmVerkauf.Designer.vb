@@ -168,6 +168,7 @@ Partial Class frmVerkauf
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.cmdTotal)
         Me.Controls.Add(Me.txtName)
+        Me.KeyPreview = True
         Me.Name = "frmVerkauf"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Verkauf"

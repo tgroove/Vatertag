@@ -205,5 +205,24 @@ Public Class frmVerkauf
         frmSuche.Enabled = True
     End Sub
 
+    Private Sub frmVerkauf_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyData = Keys.Escape Then
+            frmSuche.Clear()
+            frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
+            frmSuche.Enabled = True
+            frmSuche.BringToFront()
+            frmSuche.txtTNummer.Focus()
+            Me.Hide()
+        End If
+    End Sub
 
+    Private Sub frmVerkauf_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        frmSuche.Clear()
+        frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
+        frmSuche.Enabled = True
+        frmSuche.BringToFront()
+        frmSuche.txtTNummer.Focus()
+        'Me.Hide()
+
+    End Sub
 End Class

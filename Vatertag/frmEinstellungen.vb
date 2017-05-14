@@ -2,6 +2,7 @@
     Private Sub frmEinstellungen_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtGrundPreis.Text = Format(Grundpreis, "0.00")
         txtScheibenPreis.Text = Format(ScheibenPreis, "0.00")
+        txtVeranstaltungsname.Text = Veranstaltungsname
         If mode = "Verkauf" Then
             rdoVerkauf.Checked = True
         Else
@@ -15,6 +16,8 @@
         My.Settings.GrundPreis = Grundpreis
         ScheibenPreis = txtScheibenPreis.Text
         My.Settings.ScheibenPreis = ScheibenPreis
+        Veranstaltungsname = txtVeranstaltungsname.Text
+        My.Settings.Veranstaltungsname = Veranstaltungsname
         If rdoVerkauf.Checked Then
             mode = "Verkauf"
             My.Settings.Mode = mode
