@@ -22,6 +22,7 @@ Partial Class frmErgebnisse
     'Das Bearbeiten mit dem Code-Editor ist nicht möglich.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Me.lblNr = New System.Windows.Forms.Label()
         Me.lblName = New System.Windows.Forms.Label()
         Me.lblErg1 = New System.Windows.Forms.Label()
@@ -37,6 +38,8 @@ Partial Class frmErgebnisse
         Me.Label10 = New System.Windows.Forms.Label()
         Me.cmdOK = New System.Windows.Forms.Button()
         Me.cmdClr = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.ToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.SuspendLayout()
         '
         'lblNr
@@ -204,11 +207,23 @@ Partial Class frmErgebnisse
         Me.cmdClr.Text = "Zurücksetzen"
         Me.cmdClr.UseVisualStyleBackColor = True
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.ForeColor = System.Drawing.SystemColors.ControlDark
+        Me.Label1.Location = New System.Drawing.Point(196, 78)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(118, 12)
+        Me.Label1.TabIndex = 7
+        Me.Label1.Text = "Doppelklick löscht Ergebnis"
+        '
         'frmErgebnisse
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(384, 228)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.cmdClr)
         Me.Controls.Add(Me.cmdOK)
         Me.Controls.Add(Me.Label10)
@@ -224,6 +239,7 @@ Partial Class frmErgebnisse
         Me.Controls.Add(Me.lblErg1)
         Me.Controls.Add(Me.lblName)
         Me.Controls.Add(Me.lblNr)
+        Me.KeyPreview = True
         Me.Name = "frmErgebnisse"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Ergebnisse"
@@ -247,4 +263,6 @@ Partial Class frmErgebnisse
     Friend WithEvents Label10 As Label
     Friend WithEvents cmdOK As Button
     Friend WithEvents cmdClr As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents ToolTip As ToolTip
 End Class
