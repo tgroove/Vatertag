@@ -76,6 +76,7 @@ Public Class frmSuche
 
 
         If txtTName.Text = "" Then Exit Sub
+        If mode <> "Verkauf" Then Exit Sub
 
         'Neuen Kunden anlegen
         queryString = "INSERT INTO Kunden (Name, Aenderung) " _
@@ -258,7 +259,7 @@ Public Class frmSuche
         If lstTeilnehmer.SelectedItems.Count = 1 Then
             TlnNr = Val(Trim(lstTeilnehmer.SelectedItem.ToString.Substring(0, 3)))
             TlnDetails = GetTeilnehmerData(TlnNr)
-            lblAenderung.Text = Format(TlnDetails.Aenderung, "hh:mm:ss")
+            lblAenderung.Text = Format(TlnDetails.Aenderung, "HH:mm:ss")
             lblPlatzierung.Text = TlnDetails.Platzierung
             lblErgebnisse.Text = TlnDetails.Scheibe1 & "  " _
                 & TlnDetails.Scheibe2 & "  " _
