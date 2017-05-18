@@ -198,6 +198,73 @@ Module Vatertag
         GetMaxNr = MaxTlnrNr
     End Function
 
+    Public Function Width2(Number As String) As String
+        If Number.Length < 2 Then Number = "  " & Number
+        Width2 = Number
+    End Function
+
+    Public Sub GetSettingsFromDB()
+        Dim queryString As String =
+            "SELECT * from Einstellungen WHERE ID=1;"
+
+        Using connection As New OleDbConnection(connectionString)
+            Dim command As New OleDbCommand(queryString, connection)
+            Try
+                connection.Open()
+                Dim dataReader As OleDbDataReader =
+                 command.ExecuteReader()
+
+                Do While dataReader.Read()
+                    'Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
+                    'n = n + 1
+                    Console.WriteLine(
+                        vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
+                     dataReader(0), dataReader(1), dataReader(2))
+                    Veranstaltungsname = dataReader(1).ToString
+                    ScheibenPreis = Single.Parse(dataReader(2).ToString)
+                    Grundpreis = Single.Parse(dataReader(3).ToString)
+                Loop
+                dataReader.Close()
+
+
+            Catch ex As Exception
+                MsgBox("Der Einstellungs-Datensatz konnte nicht gelesen werden." & vbCrLf & ex.Message)
+            End Try
+            Console.ReadLine()
+
+        End Using
+
+
+    End Sub
+
+    Public Sub StoreSettingsInDB()
+        Dim queryString As String
+        Dim RecordsAffected As Integer
+        queryString = "UPDATE Einstellungen " _
+                & " SET Veranstaltungsname='" & Veranstaltungsname & "' , " _
+                & "  Scheibenpreis=" & ScheibenPreis.ToString.Replace(",", ".") & " , " _
+                & "  Grundpreis=" & Grundpreis.ToString.Replace(",", ".") & " ;"
+
+        Using connection As New OleDbConnection(connectionString)
+            Dim command As New OleDbCommand(queryString, connection)
+            Try
+                connection.Open()
+                Dim dataReader As OleDbDataReader =
+                 command.ExecuteReader()
+                RecordsAffected = dataReader.RecordsAffected
+                dataReader.Close()
+            Catch ex As Exception
+                MsgBox(ex.Message)
+            End Try
+
+            Console.ReadLine()
+        End Using
+
+        If RecordsAffected <> 1 Then
+            MsgBox("Einstellungs-Datensatz konnte nicht aktualisiert werden")
+        End If
+
+    End Sub
 
     'Public Function ExtractResourceToDisk(ByVal ResourceName As String, ByVal FileToExtractTo As String) As Boolean
 

@@ -50,6 +50,7 @@ Public Class frmSuche
                 PopulateList()
                 frmInfo.SetInfoText("Nächste neue Nummer: " & GetMaxNr() + 1)
                 AddLog("Datenbank: " & FileName, False)
+                GetSettingsFromDB()
             End If
         End If
     End Sub
@@ -405,7 +406,7 @@ Public Class frmSuche
                 If PrintFromDataSet = 1 Then
                     y = 0
                     StrFormat.Alignment = StringAlignment.Center
-                    e.Graphics.DrawString(Veranstaltungsname & " " & Format(Now(), "yyyy"), fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
+                    e.Graphics.DrawString(Veranstaltungsname, fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
                     y = 50
                     e.Graphics.DrawString(Ergebnis, fontHead, Brushes.Black, x, y)
                     e.Graphics.DrawString("Stand: " & Format(Now(), "HH:mm"), fontReg, Brushes.Black, x + 25, y + 60)
@@ -440,10 +441,10 @@ Public Class frmSuche
                         stringSize = e.Graphics.MeasureString(dataReader(1).ToString, fontReg)
                         e.Graphics.DrawString("(" & dataReader(0).ToString & ")", fontNr, Brushes.Black, x + 40 + stringSize.Width, y + dy / 2 + 1)
                         ' Ergebnisse
-                        e.Graphics.DrawString(dataReader(3).ToString, fontReg, Brushes.Black, x2, y)
-                        e.Graphics.DrawString(dataReader(4).ToString, fontReg, Brushes.Black, x2 + 40, y)
-                        e.Graphics.DrawString(dataReader(5).ToString, fontReg, Brushes.Black, x2 + 80, y)
-                        e.Graphics.DrawString(dataReader(6).ToString, fontReg, Brushes.Black, x2 + 120, y)
+                        e.Graphics.DrawString(Width2(dataReader(3).ToString), fontReg, Brushes.Black, x2, y)
+                        e.Graphics.DrawString(Width2(dataReader(4).ToString), fontReg, Brushes.Black, x2 + 40, y)
+                        e.Graphics.DrawString(Width2(dataReader(5).ToString), fontReg, Brushes.Black, x2 + 80, y)
+                        e.Graphics.DrawString(Width2(dataReader(6).ToString), fontReg, Brushes.Black, x2 + 120, y)
 
                         p1.X = x
                         p1.Y = y + 25
@@ -535,7 +536,7 @@ Public Class frmSuche
                 If PrintFromDataSet = 1 Then
                     y = 0
                     StrFormat.Alignment = StringAlignment.Center
-                    e.Graphics.DrawString(Veranstaltungsname & " " & Format(Now(), "yyyy"), fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
+                    e.Graphics.DrawString(Veranstaltungsname, fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
                     y = 50
                     e.Graphics.DrawString("Abschluss", fontHead, Brushes.Black, x, y)
                     e.Graphics.DrawString("Stand: " & Format(Now(), "dd.MM.yyyy  HH:mm:ss"), fontReg, Brushes.Black, x, y + 60)
@@ -641,6 +642,7 @@ Public Class frmSuche
                     command2.ExecuteNonQuery()
                     AddLog("Neue Datenbank angelegt: '" & filename & "'", True)
                     lstTeilnehmer.Items.Clear()
+                    StoreSettingsInDB()
                 Catch ex As Exception
                     MsgBox(ex.Message)
                 End Try

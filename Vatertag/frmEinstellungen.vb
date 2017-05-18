@@ -28,6 +28,7 @@
             frmInfo.Hide()
 
         End If
+        StoreSettingsInDB()
         My.Settings.Save()
         Me.Close()
 
@@ -57,9 +58,6 @@
         End Select
     End Sub
 
-    Private Sub txtGrundPreis_TextChanged(sender As Object, e As EventArgs) Handles txtGrundPreis.TextChanged
-
-    End Sub
 
     Private Sub frmEinstellungen_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.L Then
