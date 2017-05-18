@@ -27,7 +27,18 @@ Partial Class frmSuche
         Me.txtTName = New System.Windows.Forms.TextBox()
         Me.lstTeilnehmer = New System.Windows.Forms.ListBox()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.ToolFensterZurücksetzenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EinstellungenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuDatei = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuOpenDB = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NeueDatenbankToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DruckvorschauToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ZwischenergebnisToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EndergebnisToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.TagesabschlußToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
+        Me.EinstellungenToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BeendenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.btnNeu = New System.Windows.Forms.Button()
         Me.OpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.rtbLog = New System.Windows.Forms.RichTextBox()
@@ -42,17 +53,6 @@ Partial Class frmSuche
         Me.PrintAbschluss = New System.Drawing.Printing.PrintDocument()
         Me.PrintPreviewAbschluss = New System.Windows.Forms.PrintPreviewDialog()
         Me.SaveFileDialog = New System.Windows.Forms.SaveFileDialog()
-        Me.ToolStripMenuItem1 = New System.Windows.Forms.ToolStripSeparator()
-        Me.BeendenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolFensterZurücksetzenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EinstellungenToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuOpenDB = New System.Windows.Forms.ToolStripMenuItem()
-        Me.NeueDatenbankToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DruckvorschauToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ZwischenergebnisToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EndergebnisToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.TagesabschlußToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.EinstellungenToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -93,12 +93,87 @@ Partial Class frmSuche
         Me.MenuStrip1.TabIndex = 3
         Me.MenuStrip1.Text = "MenuStrip1"
         '
+        'ToolFensterZurücksetzenToolStripMenuItem
+        '
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.WindowRefresh8
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Name = "ToolFensterZurücksetzenToolStripMenuItem"
+        Me.ToolFensterZurücksetzenToolStripMenuItem.Size = New System.Drawing.Size(28, 20)
+        '
+        'EinstellungenToolStripMenuItem
+        '
+        Me.EinstellungenToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+        Me.EinstellungenToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.gear_32xLG
+        Me.EinstellungenToolStripMenuItem.Name = "EinstellungenToolStripMenuItem"
+        Me.EinstellungenToolStripMenuItem.Size = New System.Drawing.Size(28, 20)
+        Me.EinstellungenToolStripMenuItem.Visible = False
+        '
         'mnuDatei
         '
         Me.mnuDatei.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuOpenDB, Me.NeueDatenbankToolStripMenuItem, Me.DruckvorschauToolStripMenuItem, Me.TagesabschlußToolStripMenuItem, Me.ToolStripMenuItem1, Me.EinstellungenToolStripMenuItem1, Me.BeendenToolStripMenuItem})
         Me.mnuDatei.Name = "mnuDatei"
         Me.mnuDatei.Size = New System.Drawing.Size(46, 20)
         Me.mnuDatei.Text = "&Datei"
+        '
+        'mnuOpenDB
+        '
+        Me.mnuOpenDB.Image = Global.Vatertag.My.Resources.Resources.folder_Open_16xLG
+        Me.mnuOpenDB.Name = "mnuOpenDB"
+        Me.mnuOpenDB.Size = New System.Drawing.Size(199, 22)
+        Me.mnuOpenDB.Text = "&Datenbank öffnen"
+        '
+        'NeueDatenbankToolStripMenuItem
+        '
+        Me.NeueDatenbankToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.NewFile_6276
+        Me.NeueDatenbankToolStripMenuItem.Name = "NeueDatenbankToolStripMenuItem"
+        Me.NeueDatenbankToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.NeueDatenbankToolStripMenuItem.Text = "&Neue Datenbank"
+        '
+        'DruckvorschauToolStripMenuItem
+        '
+        Me.DruckvorschauToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ZwischenergebnisToolStripMenuItem, Me.EndergebnisToolStripMenuItem})
+        Me.DruckvorschauToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.printer_16xLG
+        Me.DruckvorschauToolStripMenuItem.Name = "DruckvorschauToolStripMenuItem"
+        Me.DruckvorschauToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.DruckvorschauToolStripMenuItem.Text = "&Ergebnisse drucken"
+        '
+        'ZwischenergebnisToolStripMenuItem
+        '
+        Me.ZwischenergebnisToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.ListTime_16x
+        Me.ZwischenergebnisToolStripMenuItem.Name = "ZwischenergebnisToolStripMenuItem"
+        Me.ZwischenergebnisToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.ZwischenergebnisToolStripMenuItem.Text = "&Zwischenergebnis"
+        '
+        'EndergebnisToolStripMenuItem
+        '
+        Me.EndergebnisToolStripMenuItem.Name = "EndergebnisToolStripMenuItem"
+        Me.EndergebnisToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.EndergebnisToolStripMenuItem.Text = "&Endergebnis"
+        '
+        'TagesabschlußToolStripMenuItem
+        '
+        Me.TagesabschlußToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.Calculator_16xLG
+        Me.TagesabschlußToolStripMenuItem.Name = "TagesabschlußToolStripMenuItem"
+        Me.TagesabschlußToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.TagesabschlußToolStripMenuItem.Text = "&Tagesabschluß drucken"
+        '
+        'ToolStripMenuItem1
+        '
+        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(196, 6)
+        '
+        'EinstellungenToolStripMenuItem1
+        '
+        Me.EinstellungenToolStripMenuItem1.Image = Global.Vatertag.My.Resources.Resources.gear_32xLG
+        Me.EinstellungenToolStripMenuItem1.Name = "EinstellungenToolStripMenuItem1"
+        Me.EinstellungenToolStripMenuItem1.Size = New System.Drawing.Size(199, 22)
+        Me.EinstellungenToolStripMenuItem1.Text = "Ein&stellungen"
+        '
+        'BeendenToolStripMenuItem
+        '
+        Me.BeendenToolStripMenuItem.Name = "BeendenToolStripMenuItem"
+        Me.BeendenToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
+        Me.BeendenToolStripMenuItem.Text = "&Beenden"
         '
         'btnNeu
         '
@@ -216,81 +291,6 @@ Partial Class frmSuche
         'SaveFileDialog
         '
         Me.SaveFileDialog.Filter = "Access|*.accdb"
-        '
-        'ToolStripMenuItem1
-        '
-        Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(196, 6)
-        '
-        'BeendenToolStripMenuItem
-        '
-        Me.BeendenToolStripMenuItem.Name = "BeendenToolStripMenuItem"
-        Me.BeendenToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
-        Me.BeendenToolStripMenuItem.Text = "&Beenden"
-        '
-        'ToolFensterZurücksetzenToolStripMenuItem
-        '
-        Me.ToolFensterZurücksetzenToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.ToolFensterZurücksetzenToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.WindowRefresh8
-        Me.ToolFensterZurücksetzenToolStripMenuItem.Name = "ToolFensterZurücksetzenToolStripMenuItem"
-        Me.ToolFensterZurücksetzenToolStripMenuItem.Size = New System.Drawing.Size(28, 20)
-        '
-        'EinstellungenToolStripMenuItem
-        '
-        Me.EinstellungenToolStripMenuItem.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
-        Me.EinstellungenToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.gear_32xLG
-        Me.EinstellungenToolStripMenuItem.Name = "EinstellungenToolStripMenuItem"
-        Me.EinstellungenToolStripMenuItem.Size = New System.Drawing.Size(28, 20)
-        Me.EinstellungenToolStripMenuItem.Visible = False
-        '
-        'mnuOpenDB
-        '
-        Me.mnuOpenDB.Image = Global.Vatertag.My.Resources.Resources.folder_Open_16xLG
-        Me.mnuOpenDB.Name = "mnuOpenDB"
-        Me.mnuOpenDB.Size = New System.Drawing.Size(199, 22)
-        Me.mnuOpenDB.Text = "&Datenbank öffnen"
-        '
-        'NeueDatenbankToolStripMenuItem
-        '
-        Me.NeueDatenbankToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.NewFile_6276
-        Me.NeueDatenbankToolStripMenuItem.Name = "NeueDatenbankToolStripMenuItem"
-        Me.NeueDatenbankToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
-        Me.NeueDatenbankToolStripMenuItem.Text = "&Neue Datenbank"
-        '
-        'DruckvorschauToolStripMenuItem
-        '
-        Me.DruckvorschauToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ZwischenergebnisToolStripMenuItem, Me.EndergebnisToolStripMenuItem})
-        Me.DruckvorschauToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.printer_16xLG
-        Me.DruckvorschauToolStripMenuItem.Name = "DruckvorschauToolStripMenuItem"
-        Me.DruckvorschauToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
-        Me.DruckvorschauToolStripMenuItem.Text = "&Ergebnisse drucken"
-        '
-        'ZwischenergebnisToolStripMenuItem
-        '
-        Me.ZwischenergebnisToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.ListTime_16x
-        Me.ZwischenergebnisToolStripMenuItem.Name = "ZwischenergebnisToolStripMenuItem"
-        Me.ZwischenergebnisToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
-        Me.ZwischenergebnisToolStripMenuItem.Text = "&Zwischenergebnis"
-        '
-        'EndergebnisToolStripMenuItem
-        '
-        Me.EndergebnisToolStripMenuItem.Name = "EndergebnisToolStripMenuItem"
-        Me.EndergebnisToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
-        Me.EndergebnisToolStripMenuItem.Text = "&Endergebnis"
-        '
-        'TagesabschlußToolStripMenuItem
-        '
-        Me.TagesabschlußToolStripMenuItem.Image = Global.Vatertag.My.Resources.Resources.Calculator_16xLG
-        Me.TagesabschlußToolStripMenuItem.Name = "TagesabschlußToolStripMenuItem"
-        Me.TagesabschlußToolStripMenuItem.Size = New System.Drawing.Size(199, 22)
-        Me.TagesabschlußToolStripMenuItem.Text = "&Tagesabschluß drucken"
-        '
-        'EinstellungenToolStripMenuItem1
-        '
-        Me.EinstellungenToolStripMenuItem1.Image = Global.Vatertag.My.Resources.Resources.gear_32xLG
-        Me.EinstellungenToolStripMenuItem1.Name = "EinstellungenToolStripMenuItem1"
-        Me.EinstellungenToolStripMenuItem1.Size = New System.Drawing.Size(199, 22)
-        Me.EinstellungenToolStripMenuItem1.Text = "Ein&stellungen"
         '
         'frmSuche
         '
