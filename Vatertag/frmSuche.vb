@@ -228,7 +228,6 @@ Public Class frmSuche
     End Sub
 
     Private Sub txtTNummer_KeyDown(sender As Object, e As KeyEventArgs) Handles txtTNummer.KeyDown
-        Dim ascii As String
         Debug.Print(e.KeyValue)
         'If e.KeyValue = 72 Then Stop
         Select Case e.KeyData
@@ -379,7 +378,6 @@ Public Class frmSuche
 
         Dim queryString As String
         Dim n As Integer
-        Dim Erg As String
 
         Dim StrFormat As New StringFormat()
         Dim LastErg As String = ""

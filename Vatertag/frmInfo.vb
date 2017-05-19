@@ -2,7 +2,7 @@
     Dim letzteTlnrNr As Integer = 0
     Public Sub SetInfoText(txt As String, Optional update As Boolean = False)
         Dim a() As String = Split(txt)
-        Dim TlnrNr, n1, n2 As Integer
+        Dim n1, n2 As Integer
         Dim rtf As String = "{\rtf1 \fs50 {\colortbl;\red110\green90\blue110;\red0\green0\blue0;} \b0\cf1"
         Dim i As Integer
         If Val(a(0)) > 0 Then
