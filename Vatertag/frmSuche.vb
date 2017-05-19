@@ -376,12 +376,14 @@ Public Class frmSuche
             txtTName.Text = ""
             txtTNummer.Text = ""
             txtTNummer.Focus()
+            PopulateList()
         End If
     End Sub
 
     Private Sub PrintDocument_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintErgebnisse.PrintPage
-        Dim fontHead As New Font("Arial", 36)
-        Dim fontReg As New Font("Arial", 14)
+        Dim fontHead As New Font("Arial", 28)
+        Dim fontReg As New Font("Arial", 12)
+        Dim fontTop As New Font("Arial", 18, FontStyle.Bold)
         Dim fontNr As New Font("Arial", 10)
 
         Dim done As Boolean = False
@@ -421,14 +423,14 @@ Public Class frmSuche
                     x = 100
                     x2 = 550
                     If PrintFromDataSet = 1 Then
-                        y = 0
+                        y = 20
+                        e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 50, y + 32, 150, 135)
                         StrFormat.Alignment = StringAlignment.Center
-                        e.Graphics.DrawString(Veranstaltungsname, fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
-                        y = 50
+                        e.Graphics.DrawString(Veranstaltungsname, fontTop, Brushes.Black, x + 300, y + 0, StrFormat)
+                        y = y + 80
                         e.Graphics.DrawString(Ergebnis, fontHead, Brushes.Black, x, y)
-                        e.Graphics.DrawString("Stand: " & Format(Now(), "HH:mm"), fontReg, Brushes.Black, x + 25, y + 60)
-                        e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 50, 0, 150, 135)
-                        y = y + 70
+                        e.Graphics.DrawString("Stand: " & Format(Now(), "HH:mm"), fontReg, Brushes.Black, x + 17, y + 50)
+                        y = y + 50
                     Else
                         y = 1
                     End If
@@ -436,7 +438,7 @@ Public Class frmSuche
                     y = y + 20
 
                     p1.X = x
-                    p1.Y = y + 25
+                    p1.Y = y + 22
                     p2.X = x2 + 150
                     p2.Y = p1.Y
                     e.Graphics.DrawLine(Pens.Black, p1, p2)
@@ -448,7 +450,7 @@ Public Class frmSuche
                         '    & dataReader(6).ToString
                         n = n + 1
                         If n >= PrintFromDataSet Then
-                            y = y + 30
+                            y = y + 25
                             ' Platzierung
                             e.Graphics.DrawString(dataReader(2).ToString, fontReg, Brushes.Black, x, y)
                             ' Name
@@ -464,7 +466,7 @@ Public Class frmSuche
                             e.Graphics.DrawString(Width2(dataReader(6).ToString), fontReg, Brushes.Black, x2 + 120, y)
 
                             p1.X = x
-                            p1.Y = y + 25
+                            p1.Y = y + 22
                             p2.X = x2 + 150
                             p2.Y = p1.Y
                             e.Graphics.DrawLine(Pens.Black, p1, p2)
@@ -521,8 +523,8 @@ Public Class frmSuche
 
     Private Sub PrintAbschluss_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintAbschluss.PrintPage
         Dim fontHead As New Font("Arial", 36)
-        Dim fontReg As New Font("Arial", 14)
-        Dim fontRegBold As New Font("Arial", 14, FontStyle.Bold)
+        Dim fontReg As New Font("Arial", 12)
+        Dim fontRegBold As New Font("Arial", 12, FontStyle.Bold)
 
         Dim done As Boolean = False
 
@@ -583,7 +585,7 @@ Public Class frmSuche
                     Do While dataReader.Read()
                         n = n + 1
                         If n >= PrintFromDataSet Then
-                            y = y + 30
+                            y = y + 25
                             ' ID
                             e.Graphics.DrawString(dataReader(0).ToString, fontReg, Brushes.Black, x, y)
                             ' Name
@@ -596,7 +598,7 @@ Public Class frmSuche
                                     0), "0.00 €"), fontReg, Brushes.Black, x2 + 180, y)
 
                             p1.X = x
-                            p1.Y = y + 25
+                            p1.Y = y + 22
                             p2.X = x2 + 250
                             p2.Y = p1.Y
                             e.Graphics.DrawLine(Pens.Black, p1, p2)
