@@ -60,36 +60,43 @@ Public Class frmSuche
         '        Dim connectionString As String =
         '            "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\Dropbox\Eigene Dateien\Vatertag.accdb;"
         Dim queryString As String
+        Dim done As Boolean = False
+        Dim TlnNr As Integer
 
         If connectionString = "" Then Exit Sub
 
         queryString = "SELECT ID FROM Kunden WHERE Name = '" & txtTName.Text & "';"
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader = command.ExecuteReader()
-                Dim TlnNr As Integer
-                If dataReader.HasRows Then
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
-                    dataReader.Read()
-                    TlnNr = dataReader(0)
-                    If mode = "Verkauf" Then
-                        frmVerkauf.FillData(TlnNr)
-                        frmVerkauf.Show()
-                        frmVerkauf.txtScheibenNeu.Focus()
-                    Else
-                        frmErgebnisse.FillData(TlnNr)
-                        frmErgebnisse.Show()
-                        frmErgebnisse.txtErgebnis.Focus()
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
+
+                    If dataReader.HasRows Then
+
+                        dataReader.Read()
+                        TlnNr = dataReader(0)
+                        If mode = "Verkauf" Then
+                            frmVerkauf.FillData(TlnNr)
+                            frmVerkauf.Show()
+                            frmVerkauf.txtScheibenNeu.Focus()
+                        Else
+                            frmErgebnisse.FillData(TlnNr)
+                            frmErgebnisse.Show()
+                            frmErgebnisse.txtErgebnis.Focus()
+                        End If
+                        Exit Sub
                     End If
-                    Exit Sub
-                End If
-                dataReader.Close()
-
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+                    dataReader.Close()
+                    done = True
+                Catch ex As Exception
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
 
             Console.ReadLine()
         End Using
@@ -105,20 +112,24 @@ Public Class frmSuche
 
         Using connection As New OleDbConnection(connectionString)
             Dim command2 As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader2 As OleDbDataReader =
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    Dim dataReader2 As OleDbDataReader =
                  command2.ExecuteReader()
-                If dataReader2.RecordsAffected <> 1 Then
-                    MsgBox("Datensatz konnte nicht hinzugefügt werden")
+                    If dataReader2.RecordsAffected <> 1 Then
+                        MsgBox("Datensatz konnte nicht hinzugefügt werden")
+                        dataReader2.Close()
+                        Exit Sub
+                    End If
                     dataReader2.Close()
-                    Exit Sub
-                End If
-                dataReader2.Close()
-
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+                    done = True
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
 
             Console.ReadLine()
         End Using
@@ -127,23 +138,27 @@ Public Class frmSuche
         queryString = "SELECT COUNT(*) FROM Kunden;"
         Using connection As New OleDbConnection(connectionString)
             Dim command2 As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader3 As OleDbDataReader =
+
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    Dim dataReader3 As OleDbDataReader =
                  command2.ExecuteReader()
-                dataReader3.Read()
-                Dim TlnNr As Integer
-                TlnNr = dataReader3(0)
-                SetMaxNr(TlnNr)
-                frmInfo.SetInfoText("Scheiben für Nummer: " & TlnNr)
-                frmVerkauf.FillData(TlnNr)
-                frmVerkauf.Show()
-                frmVerkauf.txtScheibenNeu.Focus()
-                AddLog("Neuer Kunde """ & txtTName.Text & """ mit der Nummer " & dataReader3(0) & " hinzugefügt.")
-                dataReader3.Close()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+                    dataReader3.Read()
+                    TlnNr = dataReader3(0)
+                    SetMaxNr(TlnNr)
+                    frmInfo.SetInfoText("Scheiben für Nummer: " & TlnNr)
+                    frmVerkauf.FillData(TlnNr)
+                    frmVerkauf.Show()
+                    frmVerkauf.txtScheibenNeu.Focus()
+                    AddLog("Neuer Kunde """ & txtTName.Text & """ mit der Nummer " & dataReader3(0) & " hinzugefügt.")
+                    dataReader3.Close()
+                    done = True
+                Catch ex As Exception
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
 
             Console.ReadLine()
         End Using
@@ -369,6 +384,8 @@ Public Class frmSuche
         Dim fontReg As New Font("Arial", 14)
         Dim fontNr As New Font("Arial", 10)
 
+        Dim done As Boolean = False
+
         Dim x As Integer
         Dim y As Integer
         Dim dy As Single
@@ -393,72 +410,77 @@ Public Class frmSuche
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
             Dim stringSize As New SizeF
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                    command.ExecuteReader()
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    Dim dataReader As OleDbDataReader =
+                        command.ExecuteReader()
 
-                n = 0
-                x = 100
-                x2 = 550
-                If PrintFromDataSet = 1 Then
-                    y = 0
-                    StrFormat.Alignment = StringAlignment.Center
-                    e.Graphics.DrawString(Veranstaltungsname, fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
-                    y = 50
-                    e.Graphics.DrawString(Ergebnis, fontHead, Brushes.Black, x, y)
-                    e.Graphics.DrawString("Stand: " & Format(Now(), "HH:mm"), fontReg, Brushes.Black, x + 25, y + 60)
-                    e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 50, 0, 150, 135)
-                    y = y + 70
-                Else
-                    y = 1
-                End If
-
-                y = y + 20
-
-                p1.X = x
-                p1.Y = y + 25
-                p2.X = x2 + 150
-                p2.Y = p1.Y
-                e.Graphics.DrawLine(Pens.Black, p1, p2)
-
-                Do While dataReader.Read()
-                    ''Erg = dataReader(3).ToString & "  " _
-                    '    & dataReader(4).ToString & "  " _
-                    '    & dataReader(5).ToString & "  " _
-                    '    & dataReader(6).ToString
-                    n = n + 1
-                    If n >= PrintFromDataSet Then
-                        y = y + 30
-                        ' Platzierung
-                        e.Graphics.DrawString(dataReader(2).ToString, fontReg, Brushes.Black, x, y)
-                        ' Name
-                        e.Graphics.DrawString(dataReader(1).ToString, fontReg, Brushes.Black, x + 40, y)
-
-                        dy = e.Graphics.MeasureString("0", fontReg).Height - e.Graphics.MeasureString("0", fontNr).Height
-                        stringSize = e.Graphics.MeasureString(dataReader(1).ToString, fontReg)
-                        e.Graphics.DrawString("(" & dataReader(0).ToString & ")", fontNr, Brushes.Black, x + 40 + stringSize.Width, y + dy / 2 + 1)
-                        ' Ergebnisse
-                        e.Graphics.DrawString(Width2(dataReader(3).ToString), fontReg, Brushes.Black, x2, y)
-                        e.Graphics.DrawString(Width2(dataReader(4).ToString), fontReg, Brushes.Black, x2 + 40, y)
-                        e.Graphics.DrawString(Width2(dataReader(5).ToString), fontReg, Brushes.Black, x2 + 80, y)
-                        e.Graphics.DrawString(Width2(dataReader(6).ToString), fontReg, Brushes.Black, x2 + 120, y)
-
-                        p1.X = x
-                        p1.Y = y + 25
-                        p2.X = x2 + 150
-                        p2.Y = p1.Y
-                        e.Graphics.DrawLine(Pens.Black, p1, p2)
-                        If y > e.MarginBounds.Bottom - 15 Then
-                            e.HasMorePages = True
-                            Exit Do
-                        End If
+                    n = 0
+                    x = 100
+                    x2 = 550
+                    If PrintFromDataSet = 1 Then
+                        y = 0
+                        StrFormat.Alignment = StringAlignment.Center
+                        e.Graphics.DrawString(Veranstaltungsname, fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
+                        y = 50
+                        e.Graphics.DrawString(Ergebnis, fontHead, Brushes.Black, x, y)
+                        e.Graphics.DrawString("Stand: " & Format(Now(), "HH:mm"), fontReg, Brushes.Black, x + 25, y + 60)
+                        e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 50, 0, 150, 135)
+                        y = y + 70
+                    Else
+                        y = 1
                     End If
-                Loop
-                dataReader.Close()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+
+                    y = y + 20
+
+                    p1.X = x
+                    p1.Y = y + 25
+                    p2.X = x2 + 150
+                    p2.Y = p1.Y
+                    e.Graphics.DrawLine(Pens.Black, p1, p2)
+
+                    Do While dataReader.Read()
+                        ''Erg = dataReader(3).ToString & "  " _
+                        '    & dataReader(4).ToString & "  " _
+                        '    & dataReader(5).ToString & "  " _
+                        '    & dataReader(6).ToString
+                        n = n + 1
+                        If n >= PrintFromDataSet Then
+                            y = y + 30
+                            ' Platzierung
+                            e.Graphics.DrawString(dataReader(2).ToString, fontReg, Brushes.Black, x, y)
+                            ' Name
+                            e.Graphics.DrawString(dataReader(1).ToString, fontReg, Brushes.Black, x + 40, y)
+
+                            dy = e.Graphics.MeasureString("0", fontReg).Height - e.Graphics.MeasureString("0", fontNr).Height
+                            stringSize = e.Graphics.MeasureString(dataReader(1).ToString, fontReg)
+                            e.Graphics.DrawString("(" & dataReader(0).ToString & ")", fontNr, Brushes.Black, x + 40 + stringSize.Width, y + dy / 2 + 1)
+                            ' Ergebnisse
+                            e.Graphics.DrawString(Width2(dataReader(3).ToString), fontReg, Brushes.Black, x2, y)
+                            e.Graphics.DrawString(Width2(dataReader(4).ToString), fontReg, Brushes.Black, x2 + 40, y)
+                            e.Graphics.DrawString(Width2(dataReader(5).ToString), fontReg, Brushes.Black, x2 + 80, y)
+                            e.Graphics.DrawString(Width2(dataReader(6).ToString), fontReg, Brushes.Black, x2 + 120, y)
+
+                            p1.X = x
+                            p1.Y = y + 25
+                            p2.X = x2 + 150
+                            p2.Y = p1.Y
+                            e.Graphics.DrawLine(Pens.Black, p1, p2)
+                            If y > e.MarginBounds.Bottom - 15 Then
+                                e.HasMorePages = True
+                                done = True
+                                Exit Do
+                            End If
+                        End If
+                    Loop
+                    dataReader.Close()
+                    done = True
+                Catch ex As Exception
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
 
         End Using
 
@@ -502,6 +524,8 @@ Public Class frmSuche
         Dim fontReg As New Font("Arial", 14)
         Dim fontRegBold As New Font("Arial", 14, FontStyle.Bold)
 
+        Dim done As Boolean = False
+
         Dim x As Integer
         Dim y As Integer
         Dim x2 As Integer
@@ -523,67 +547,72 @@ Public Class frmSuche
         c = GetCounts()
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                    command.ExecuteReader()
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    Dim dataReader As OleDbDataReader =
+                        command.ExecuteReader()
 
-                n = 0
-                x = 100
-                x2 = 450
-                If PrintFromDataSet = 1 Then
-                    y = 0
-                    StrFormat.Alignment = StringAlignment.Center
-                    e.Graphics.DrawString(Veranstaltungsname, fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
-                    y = 50
-                    e.Graphics.DrawString("Abschluss", fontHead, Brushes.Black, x, y)
-                    e.Graphics.DrawString("Stand: " & Format(Now(), "dd.MM.yyyy  HH:mm:ss"), fontReg, Brushes.Black, x, y + 60)
-                    e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 50, 0, 150, 135)
-                    y = y + 120
-                    e.Graphics.DrawString("Zahlende Teilnehmer:", fontRegBold, Brushes.Black, x, y)
-                    e.Graphics.DrawString(c.Teilnehmer, fontReg, Brushes.Black, x + 210, y)
-                    y = y + 25
-                    e.Graphics.DrawString("Verkaufte Scheiben:", fontRegBold, Brushes.Black, x, y)
-                    e.Graphics.DrawString(c.Scheiben, fontReg, Brushes.Black, x + 210, y)
-                    y = y + 25
-                    e.Graphics.DrawString("Einnahmen:", fontRegBold, Brushes.Black, x, y)
-                    e.Graphics.DrawString(Format(c.Scheiben * ScheibenPreis + c.Teilnehmer * Grundpreis, "0.00 €"), fontReg, Brushes.Black, x + 210, y)
-                    y = y + 50
+                    n = 0
+                    x = 100
+                    x2 = 450
+                    If PrintFromDataSet = 1 Then
+                        y = 0
+                        StrFormat.Alignment = StringAlignment.Center
+                        e.Graphics.DrawString(Veranstaltungsname, fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
+                        y = 50
+                        e.Graphics.DrawString("Abschluss", fontHead, Brushes.Black, x, y)
+                        e.Graphics.DrawString("Stand: " & Format(Now(), "dd.MM.yyyy  HH:mm:ss"), fontReg, Brushes.Black, x, y + 60)
+                        e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 50, 0, 150, 135)
+                        y = y + 120
+                        e.Graphics.DrawString("Zahlende Teilnehmer:", fontRegBold, Brushes.Black, x, y)
+                        e.Graphics.DrawString(c.Teilnehmer, fontReg, Brushes.Black, x + 210, y)
+                        y = y + 25
+                        e.Graphics.DrawString("Verkaufte Scheiben:", fontRegBold, Brushes.Black, x, y)
+                        e.Graphics.DrawString(c.Scheiben, fontReg, Brushes.Black, x + 210, y)
+                        y = y + 25
+                        e.Graphics.DrawString("Einnahmen:", fontRegBold, Brushes.Black, x, y)
+                        e.Graphics.DrawString(Format(c.Scheiben * ScheibenPreis + c.Teilnehmer * Grundpreis, "0.00 €"), fontReg, Brushes.Black, x + 210, y)
+                        y = y + 50
 
-                Else
-                    y = 1
-                End If
-
-                Do While dataReader.Read()
-                    n = n + 1
-                    If n >= PrintFromDataSet Then
-                        y = y + 30
-                        ' ID
-                        e.Graphics.DrawString(dataReader(0).ToString, fontReg, Brushes.Black, x, y)
-                        ' Name
-                        e.Graphics.DrawString(dataReader(1).ToString, fontReg, Brushes.Black, x + 40, y)
-                        ' Ergebnisse
-                        e.Graphics.DrawString("Scheiben: " & dataReader(3).ToString, fontReg, Brushes.Black, x2, y)
-                        e.Graphics.DrawString(Format(
-                            IIf(Val(dataReader(3).ToString) > 0,
-                                CalculateBetragByScheiben(0, Val(dataReader(3).ToString)),
-                                0), "0.00 €"), fontReg, Brushes.Black, x2 + 180, y)
-
-                        p1.X = x
-                        p1.Y = y + 25
-                        p2.X = x2 + 250
-                        p2.Y = p1.Y
-                        e.Graphics.DrawLine(Pens.Black, p1, p2)
-                        If y > e.MarginBounds.Bottom - 15 Then
-                            e.HasMorePages = True
-                            Exit Do
-                        End If
+                    Else
+                        y = 1
                     End If
-                Loop
-                dataReader.Close()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+
+                    Do While dataReader.Read()
+                        n = n + 1
+                        If n >= PrintFromDataSet Then
+                            y = y + 30
+                            ' ID
+                            e.Graphics.DrawString(dataReader(0).ToString, fontReg, Brushes.Black, x, y)
+                            ' Name
+                            e.Graphics.DrawString(dataReader(1).ToString, fontReg, Brushes.Black, x + 40, y)
+                            ' Ergebnisse
+                            e.Graphics.DrawString("Scheiben: " & dataReader(3).ToString, fontReg, Brushes.Black, x2, y)
+                            e.Graphics.DrawString(Format(
+                                IIf(Val(dataReader(3).ToString) > 0,
+                                    CalculateBetragByScheiben(0, Val(dataReader(3).ToString)),
+                                    0), "0.00 €"), fontReg, Brushes.Black, x2 + 180, y)
+
+                            p1.X = x
+                            p1.Y = y + 25
+                            p2.X = x2 + 250
+                            p2.Y = p1.Y
+                            e.Graphics.DrawLine(Pens.Black, p1, p2)
+                            If y > e.MarginBounds.Bottom - 15 Then
+                                e.HasMorePages = True
+                                done = True
+                                Exit Do
+                            End If
+                        End If
+                    Loop
+                    dataReader.Close()
+                    done = True
+                Catch ex As Exception
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
 
         End Using
 
@@ -608,6 +637,9 @@ Public Class frmSuche
 
     Private Sub NeueDatenbankToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NeueDatenbankToolStripMenuItem.Click
         Dim filename As String
+
+        Dim done As Boolean = False
+
         SaveFileDialog.FileName = Veranstaltungsname & " " & Format(Now(), "yyyy") & ".accdb"
         If SaveFileDialog.ShowDialog() = DialogResult.OK Then
             filename = SaveFileDialog.FileName
@@ -635,15 +667,18 @@ Public Class frmSuche
             queryString = "ALTER TABLE Kunden ALTER COLUMN ID COUNTER (1)"
             Using connection As New OleDbConnection(connectionString)
                 Dim command2 As New OleDbCommand(queryString, connection)
-                Try
-                    connection.Open()
-                    command2.ExecuteNonQuery()
-                    AddLog("Neue Datenbank angelegt: '" & filename & "'", True)
-                    lstTeilnehmer.Items.Clear()
-                    StoreSettingsInDB()
-                Catch ex As Exception
-                    MsgBox(ex.Message)
-                End Try
+                Do
+                    Try
+                        If connection.State = ConnectionState.Closed Then connection.Open()
+                        command2.ExecuteNonQuery()
+                        AddLog("Neue Datenbank angelegt: '" & filename & "'", True)
+                        lstTeilnehmer.Items.Clear()
+                        StoreSettingsInDB()
+                        done = True
+                    Catch ex As Exception
+                        If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                    End Try
+                Loop Until done
             End Using
         End If
     End Sub

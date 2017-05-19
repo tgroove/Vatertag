@@ -142,6 +142,7 @@ Public Class frmErgebnisse
         Dim LogText As String
         Dim NeueErgebnisse As String = ""
         Dim i As Integer
+        Dim done As Boolean = False
         queryString = "UPDATE Kunden " _
                 & " SET Scheibe1=" & Ergebnisse(0).Wert & ", " _
                 & " Scheibe2=" & Ergebnisse(1).Wert & ", " _
@@ -170,15 +171,21 @@ Public Class frmErgebnisse
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                 command.ExecuteReader()
-                RecordsAffected = dataReader.RecordsAffected
-                dataReader.Close()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
+
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
+
+                    RecordsAffected = dataReader.RecordsAffected
+                    dataReader.Close()
+                    done = True
+                Catch ex As Exception
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
 
             Console.ReadLine()
         End Using

@@ -53,6 +53,7 @@ Public Class frmVerkauf
         If Not (locked) Then
             locked = True
             Dim Scheiben As Single = CalculateScheibenByBetrag(Val(txtScheibenAlt.Text), Val(txtBetragNeu.Text.Replace(",", ".")))
+            If Scheiben < 0 Then Scheiben = 0
             txtScheibenNeu.Text = Fix(Scheiben)
             locked = False
             If (Fix(Scheiben) <> Scheiben) And (Fix(Scheiben) > 0) Then
@@ -140,6 +141,7 @@ Public Class frmVerkauf
         Dim queryString As String
         Dim RecordsAffected As Integer
         Dim LogText As String = ""
+        Dim done As Boolean = False
 
         If sender.Text = "Total" Then
             queryString = "UPDATE Kunden " _
@@ -165,15 +167,21 @@ Public Class frmVerkauf
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                 command.ExecuteReader()
-                RecordsAffected = dataReader.RecordsAffected
-                dataReader.Close()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
+
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
+
+                    RecordsAffected = dataReader.RecordsAffected
+                    dataReader.Close()
+                    done = True
+                Catch ex As Exception
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
 
             Console.ReadLine()
         End Using

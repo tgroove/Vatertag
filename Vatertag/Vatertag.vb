@@ -46,6 +46,7 @@ Module Vatertag
     Public Sub PopulateList()
         Dim Teilnehmer() As String
         Dim n As Integer
+        Dim done As Boolean = False
         Dim maxTlnrNr As Integer = 0
         Dim queryString As String =
             "SELECT * from Kunden;"
@@ -56,27 +57,31 @@ Module Vatertag
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                 command.ExecuteReader()
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
 
-                Do While dataReader.Read()
-                    Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
-                    n = n + 1
-                    Console.WriteLine(
+                    Do While dataReader.Read()
+                        Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
+                        n = n + 1
+                        Console.WriteLine(
                         vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
                      dataReader(0), dataReader(1), dataReader(2))
-                    If Val(dataReader(0).ToString) > maxTlnrNr Then maxTlnrNr = CInt(Val(dataReader(0).ToString))
-                Loop
-                SetMaxNr(maxTlnrNr)
-                'Debug.Print("Max TlnNr=" & maxTlnrNr)
-                dataReader.Close()
-                ReDim Preserve Teilnehmer(n - 1)
-                If n > 0 Then frmSuche.PopList(Teilnehmer)
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+                        If Val(dataReader(0).ToString) > maxTlnrNr Then maxTlnrNr = CInt(Val(dataReader(0).ToString))
+                    Loop
+                    SetMaxNr(maxTlnrNr)
+                    'Debug.Print("Max TlnNr=" & maxTlnrNr)
+                    dataReader.Close()
+                    ReDim Preserve Teilnehmer(n - 1)
+                    If n > 0 Then frmSuche.PopList(Teilnehmer)
+                    done = True
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                End Try
+            Loop Until done
             Console.ReadLine()
 
         End Using
@@ -88,37 +93,41 @@ Module Vatertag
         Dim data As strucTeilnehmer
         Dim queryString As String =
             "SELECT * from Kunden WHERE ID=" & Nr & ";"
+        Dim done As Boolean = False
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                 command.ExecuteReader()
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
-                Do While dataReader.Read()
-                    'Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
-                    'n = n + 1
-                    Console.WriteLine(
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
+
+                    Do While dataReader.Read()
+                        'Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
+                        'n = n + 1
+                        Console.WriteLine(
                         vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
-                     dataReader(0), dataReader(1), dataReader(2))
-                    data.Nr = CInt(Val(dataReader(0)))
-                    data.Name = dataReader(1).ToString
-                    data.Scheiben = CInt(Val(dataReader(2)))
-                    data.Platzierung = CInt(Val(dataReader(3)))
-                    data.Aenderung = CDate(dataReader(4))
-                    data.Scheibe1 = CInt(Val(dataReader(5)))
-                    data.Scheibe2 = CInt(Val(dataReader(6)))
-                    data.Scheibe3 = CInt(Val(dataReader(7)))
-                    data.Scheibe4 = CInt(Val(dataReader(8)))
-                    GetTeilnehmerData = data
-                Loop
-                dataReader.Close()
+                        dataReader(0), dataReader(1), dataReader(2))
+                        data.Nr = CInt(Val(dataReader(0)))
+                        data.Name = dataReader(1).ToString
+                        data.Scheiben = CInt(Val(dataReader(2)))
+                        data.Platzierung = CInt(Val(dataReader(3)))
+                        data.Aenderung = CDate(dataReader(4))
+                        data.Scheibe1 = CInt(Val(dataReader(5)))
+                        data.Scheibe2 = CInt(Val(dataReader(6)))
+                        data.Scheibe3 = CInt(Val(dataReader(7)))
+                        data.Scheibe4 = CInt(Val(dataReader(8)))
+                        GetTeilnehmerData = data
+                    Loop
+                    dataReader.Close()
+                    done = True
 
-
-            Catch ex As Exception
-                MsgBox("Der Datensatz konnte nicht gelesen werden." & vbCrLf & ex.Message)
-            End Try
+                Catch ex As Exception
+                    If MsgBox("Der Datensatz konnte nicht gelesen werden." & vbCrLf & ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
             Console.ReadLine()
 
         End Using
@@ -137,22 +146,26 @@ Module Vatertag
     Public Sub UpdatePosition(ID As Integer, Platzierung As Integer)
         Dim queryString As String
         Dim RecordsAffected As Integer
+        Dim done As Boolean = False
         queryString = "UPDATE Kunden " _
                 & " SET Platzierung=" & Platzierung _
                 & " WHERE ID=" & ID & " ;"
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                 command.ExecuteReader()
-                RecordsAffected = dataReader.RecordsAffected
-                dataReader.Close()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
-
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
+                    RecordsAffected = dataReader.RecordsAffected
+                    dataReader.Close()
+                    done = True
+                Catch ex As Exception
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
             Console.ReadLine()
         End Using
 
@@ -168,22 +181,28 @@ Module Vatertag
         Dim c As strucCounts
         Dim queryString As String =
             "SELECT Scheiben FROM Kunden WHERE Scheiben>0"
+        Dim done As Boolean = False
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                 command.ExecuteReader()
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
-                Do While dataReader.Read()
-                    AnzahlScheiben = AnzahlScheiben + CInt(Val(dataReader(0).ToString))
-                    AnzahlTeilnehmer = AnzahlTeilnehmer + 1
-                Loop
-                dataReader.Close()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
+
+                    Do While dataReader.Read()
+                        AnzahlScheiben = AnzahlScheiben + CInt(Val(dataReader(0).ToString))
+                        AnzahlTeilnehmer = AnzahlTeilnehmer + 1
+                    Loop
+                    dataReader.Close()
+                    done = True
+                Catch ex As Exception
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
         End Using
         c.Scheiben = AnzahlScheiben
         c.Teilnehmer = AnzahlTeilnehmer
@@ -206,30 +225,35 @@ Module Vatertag
     Public Sub GetSettingsFromDB()
         Dim queryString As String =
             "SELECT * from Einstellungen WHERE ID=1;"
+        Dim done As Boolean = False
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                 command.ExecuteReader()
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
-                Do While dataReader.Read()
-                    'Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
-                    'n = n + 1
-                    Console.WriteLine(
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
+
+                    Do While dataReader.Read()
+                        'Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
+                        'n = n + 1
+                        Console.WriteLine(
                         vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
                      dataReader(0), dataReader(1), dataReader(2))
-                    Veranstaltungsname = dataReader(1).ToString
-                    ScheibenPreis = Single.Parse(dataReader(2).ToString)
-                    Grundpreis = Single.Parse(dataReader(3).ToString)
-                Loop
-                dataReader.Close()
+                        Veranstaltungsname = dataReader(1).ToString
+                        ScheibenPreis = Single.Parse(dataReader(2).ToString)
+                        Grundpreis = Single.Parse(dataReader(3).ToString)
+                    Loop
+                    dataReader.Close()
+                    done = True
 
-
-            Catch ex As Exception
-                MsgBox("Der Einstellungs-Datensatz konnte nicht gelesen werden." & vbCrLf & ex.Message)
-            End Try
+                Catch ex As Exception
+                    If MsgBox("Der Einstellungs-Datensatz konnte nicht gelesen werden." & vbCrLf & ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
             Console.ReadLine()
 
         End Using
@@ -240,6 +264,7 @@ Module Vatertag
     Public Sub StoreSettingsInDB()
         Dim queryString As String
         Dim RecordsAffected As Integer
+        Dim done As Boolean = False
         queryString = "UPDATE Einstellungen " _
                 & " SET Veranstaltungsname='" & Veranstaltungsname & "' , " _
                 & "  Scheibenpreis=" & ScheibenPreis.ToString.Replace(",", ".") & " , " _
@@ -247,15 +272,20 @@ Module Vatertag
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                 command.ExecuteReader()
-                RecordsAffected = dataReader.RecordsAffected
-                dataReader.Close()
-            Catch ex As Exception
-                MsgBox(ex.Message)
-            End Try
+            done = False
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
+
+                    RecordsAffected = dataReader.RecordsAffected
+                    dataReader.Close()
+                    done = True
+                Catch ex As Exception
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
 
             Console.ReadLine()
         End Using

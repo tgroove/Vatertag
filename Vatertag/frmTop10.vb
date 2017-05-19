@@ -13,6 +13,7 @@ Public Class frmTop10
         Dim LastErg As String = ""
         Dim offset As Integer
         Dim Pos As Integer
+        Dim done As Boolean = False
         Dim rtf As String = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}}"
         queryString = "SELECT ID, Name, Platzierung, Scheibe1, Scheibe2, Scheibe3, Scheibe4 " _
             & " FROM Kunden " _
@@ -27,39 +28,44 @@ Public Class frmTop10
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Try
-                connection.Open()
-                Dim dataReader As OleDbDataReader =
-                    command.ExecuteReader()
-                n = 0
-                Do While dataReader.Read()
-                    Erg = dataReader(3).ToString & "  " _
+            Dim dataReader As OleDbDataReader '= command.ExecuteReader()
+
+            done = False
+            Do
+                Try
+                    If connection.State = ConnectionState.Closed Then connection.Open()
+                    dataReader = command.ExecuteReader()
+                    n = 0
+                    Do While dataReader.Read()
+                        Erg = dataReader(3).ToString & "  " _
                         & dataReader(4).ToString & "  " _
                         & dataReader(5).ToString & "  " _
                         & dataReader(6).ToString
-                    n = n + 1
+                        n = n + 1
 
-                    If Erg = LastErg Then
-                        offset = offset + 1
-                    Else
-                        offset = 0
-                    End If
-                    LastErg = Erg
-                    Pos = n - offset
-                    If Val(dataReader(2).ToString) <> Pos Then
-                        UpdatePosition(Val(dataReader(0).ToString), Pos)
-                    End If
-                    rtf = rtf & " " & Pos & "  " & dataReader(1).ToString _
+                        If Erg = LastErg Then
+                            offset = offset + 1
+                        Else
+                            offset = 0
+                        End If
+                        LastErg = Erg
+                        Pos = n - offset
+                        If Val(dataReader(2).ToString) <> Pos Then
+                            UpdatePosition(Val(dataReader(0).ToString), Pos)
+                        End If
+                        rtf = rtf & " " & Pos & "  " & dataReader(1).ToString _
                         & "\tqr\tx4320\tab " _
                         & Erg & " \tab\par\pard "
-                Loop
-                dataReader.Close()
-                connection.Close()
-                tmrRangliste.Interval = 5000
-            Catch ex As Exception
-                tmrRangliste.Interval = tmrRangliste.Interval * 10
-                MsgBox(ex.Message)
-            End Try
+                    Loop
+                    dataReader.Close()
+                    connection.Close()
+                    tmrRangliste.Interval = 5000
+                    done = True
+                Catch ex As Exception
+                    tmrRangliste.Interval = tmrRangliste.Interval * 10
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
+                End Try
+            Loop Until done
 
             Console.ReadLine()
         End Using
