@@ -171,6 +171,7 @@ Public Class frmErgebnisse
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
+            Console.WriteLine("queryString: " & queryString)
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
             done = False
@@ -183,6 +184,7 @@ Public Class frmErgebnisse
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
+                    Console.WriteLine("cmdOK failed: " & ex.Message)
                     If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                 End Try
             Loop Until done
@@ -191,6 +193,7 @@ Public Class frmErgebnisse
         End Using
 
         If RecordsAffected <> 1 Then
+            Console.WriteLine("cmdOK failed. RecordsAffected = " & RecordsAffected)
             MsgBox("Datensatz konnte nicht geändert werden")
         Else
             AddLog(LogText, IIf(GelöschteErgebnisse <> "", True, False))

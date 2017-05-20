@@ -5,6 +5,7 @@
     Public Sub AddLog(LogEntry As String, Optional red As Boolean = False)
         If LogEntry = "" Then Exit Sub
         Dim n As Integer
+        Console.WriteLine("LogEntry: """ & LogEntry & """")
         For n = 0 To 3
             LogLine(n) = LogLine(n + 1)
         Next

@@ -39,7 +39,9 @@ Public Class frmVerkauf
     Private Sub txtScheibenNeu_TextChanged(sender As Object, e As EventArgs) Handles txtScheibenNeu.TextChanged
         If Not (locked) Then
             locked = True
+            Console.WriteLine("txtScheibenNeu = " & txtScheibenNeu.Text)
             txtBetragNeu.Text = Format(CalculateBetragByScheiben(Val(txtScheibenAlt.Text), Val(txtScheibenNeu.Text)), "0.00")
+            Console.WriteLine(" -> txtBetragNeu.Text = " & txtBetragNeu.Text)
             locked = False
         End If
         If (Val(txtScheibenNeu.Text) > 0) Then
@@ -52,9 +54,11 @@ Public Class frmVerkauf
     Private Sub txtBetragNeu_TextChanged(sender As Object, e As EventArgs) Handles txtBetragNeu.TextChanged
         If Not (locked) Then
             locked = True
+            Console.WriteLine("txtBetragNeu:" & txtBetragNeu.Text)
             Dim Scheiben As Single = CalculateScheibenByBetrag(Val(txtScheibenAlt.Text), Val(txtBetragNeu.Text.Replace(",", ".")))
             If Scheiben < 0 Then Scheiben = 0
             txtScheibenNeu.Text = Fix(Scheiben)
+            Console.WriteLine(" -> txtScheibenNeu = " & txtScheibenNeu.Text)
             locked = False
             If (Fix(Scheiben) <> Scheiben) And (Fix(Scheiben) > 0) Then
                 Dim Betrag As Single = CalculateBetragByScheiben(Val(txtScheibenAlt.Text), Fix(Scheiben))
@@ -104,6 +108,7 @@ Public Class frmVerkauf
     Private Sub txtBetragNeu_LostFocus(sender As Object, e As EventArgs) Handles txtBetragNeu.LostFocus
         If Not (locked) Then
             locked = True
+            Console.WriteLine("txtBetragNeu:" & txtBetragNeu.Text)
             txtBetragNeu.Text = Format(Val(txtBetragNeu.Text.Replace(",", ".")), "0.00")
             locked = False
         End If
@@ -125,6 +130,7 @@ Public Class frmVerkauf
 
     Private Sub txtName_TextChanged(sender As Object, e As EventArgs) Handles txtName.TextChanged
         If txtName.Text <> txtName.Tag Then
+            Console.WriteLine("txtName_Text_Changed " & txtName.Text)
             txtScheibenNeu.Text = ""
             txtScheibenNeu.Enabled = False
             txtBetragNeu.Text = ""
@@ -167,6 +173,7 @@ Public Class frmVerkauf
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
+            Console.WriteLine("queryString: " & queryString)
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
             done = False
@@ -179,6 +186,7 @@ Public Class frmVerkauf
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
+                    Console.WriteLine("cmdTotal_Click failed")
                     If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                 End Try
             Loop Until done
@@ -187,6 +195,7 @@ Public Class frmVerkauf
         End Using
 
         If RecordsAffected <> 1 Then
+            Console.WriteLine("cmdTotal_Click failed. RecordsAffected = " & RecordsAffected)
             MsgBox("Datensatz konnte nicht geändert werden")
         Else
             AddLog(LogText, IIf(sender.Text = "OK", True, False))

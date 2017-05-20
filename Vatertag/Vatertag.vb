@@ -57,6 +57,7 @@ Module Vatertag
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
+            'Console.WriteLine("queryString: " & queryString)
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
             done = False
             Do
@@ -67,9 +68,9 @@ Module Vatertag
                     Do While dataReader.Read()
                         Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
                         n = n + 1
-                        Console.WriteLine(
-                        vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
-                     dataReader(0), dataReader(1), dataReader(2))
+                        '   Console.WriteLine(
+                        '   vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
+                        'dataReader(0), dataReader(1), dataReader(2))
                         If Val(dataReader(0).ToString) > maxTlnrNr Then maxTlnrNr = CInt(Val(dataReader(0).ToString))
                     Loop
                     SetMaxNr(maxTlnrNr)
@@ -79,7 +80,8 @@ Module Vatertag
                     If n > 0 Then frmSuche.PopList(Teilnehmer)
                     done = True
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    Console.WriteLine("PopulateList failed: " & ex.Message)
+                    If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                 End Try
             Loop Until done
             Console.ReadLine()
@@ -97,6 +99,7 @@ Module Vatertag
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
+            Console.WriteLine("queryString: " & queryString)
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
             Do
@@ -107,9 +110,9 @@ Module Vatertag
                     Do While dataReader.Read()
                         'Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
                         'n = n + 1
-                        Console.WriteLine(
-                        vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
-                        dataReader(0), dataReader(1), dataReader(2))
+                        'Console.WriteLine(
+                        'vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
+                        'dataReader(0), dataReader(1), dataReader(2))
                         data.Nr = CInt(Val(dataReader(0)))
                         data.Name = dataReader(1).ToString
                         data.Scheiben = CInt(Val(dataReader(2)))
@@ -125,6 +128,7 @@ Module Vatertag
                     done = True
 
                 Catch ex As Exception
+                    Console.WriteLine("GetTeilnehmerData failed: " & ex.Message)
                     If MsgBox("Der Datensatz konnte nicht gelesen werden." & vbCrLf & ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                 End Try
             Loop Until done
@@ -153,6 +157,7 @@ Module Vatertag
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
+            Console.WriteLine("queryString: " & queryString)
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
             done = False
             Do
@@ -163,6 +168,7 @@ Module Vatertag
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
+                    Console.WriteLine("UpdatePosition failed: " & ex.Message)
                     If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                 End Try
             Loop Until done
@@ -170,6 +176,7 @@ Module Vatertag
         End Using
 
         If RecordsAffected <> 1 Then
+            Console.Write("UpdatePosition failed. RecordsAffected = " & RecordsAffected)
             MsgBox("Datensatz konnte nicht aktualisiert werden")
         End If
 
@@ -185,6 +192,7 @@ Module Vatertag
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
+            Console.WriteLine("queryString: " & queryString)
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
             done = False
@@ -200,6 +208,7 @@ Module Vatertag
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
+                    Console.Write("GetCounts failed: " & ex.Message)
                     If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                 End Try
             Loop Until done
@@ -229,6 +238,7 @@ Module Vatertag
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
+            Console.WriteLine("queryString: " & queryString)
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
             done = False
@@ -240,9 +250,9 @@ Module Vatertag
                     Do While dataReader.Read()
                         'Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
                         'n = n + 1
-                        Console.WriteLine(
-                        vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
-                     dataReader(0), dataReader(1), dataReader(2))
+                        '   Console.WriteLine(
+                        '   vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
+                        'dataReader(0), dataReader(1), dataReader(2))
                         Veranstaltungsname = dataReader(1).ToString
                         ScheibenPreis = Single.Parse(dataReader(2).ToString)
                         Grundpreis = Single.Parse(dataReader(3).ToString)
@@ -251,6 +261,7 @@ Module Vatertag
                     done = True
 
                 Catch ex As Exception
+                    Console.WriteLine("GetSettingsFromDB failed: " & ex.Message)
                     If MsgBox("Der Einstellungs-Datensatz konnte nicht gelesen werden." & vbCrLf & ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                 End Try
             Loop Until done
@@ -272,6 +283,7 @@ Module Vatertag
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
+            Console.WriteLine("queryString: " & queryString)
             done = False
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
             Do
@@ -283,6 +295,7 @@ Module Vatertag
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
+                    Console.WriteLine("StoreSettingsDB failed: " & ex.Message)
                     If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                 End Try
             Loop Until done
@@ -291,6 +304,7 @@ Module Vatertag
         End Using
 
         If RecordsAffected <> 1 Then
+            Console.WriteLine("StoreSettingsInDB failed. RecordsAffected = " & RecordsAffected)
             MsgBox("Einstellungs-Datensatz konnte nicht aktualisiert werden")
         End If
 
