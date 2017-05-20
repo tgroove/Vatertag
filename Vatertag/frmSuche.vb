@@ -386,6 +386,7 @@ Public Class frmSuche
     Private Sub PrintDocument_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintErgebnisse.PrintPage
         Dim fontHead As New Font("Arial", 28)
         Dim fontReg As New Font("Arial", 12)
+        Dim fontRegBold As New Font("Arial", 12, FontStyle.Bold)
         Dim fontTop As New Font("Arial", 18, FontStyle.Bold)
         Dim fontNr As New Font("Arial", 10)
 
@@ -458,10 +459,10 @@ Public Class frmSuche
                             ' Platzierung
                             e.Graphics.DrawString(dataReader(2).ToString, fontReg, Brushes.Black, x, y)
                             ' Name
-                            e.Graphics.DrawString(dataReader(1).ToString, fontReg, Brushes.Black, x + 40, y)
+                            e.Graphics.DrawString(dataReader(1).ToString, fontRegBold, Brushes.Black, x + 40, y)
 
                             dy = e.Graphics.MeasureString("0", fontReg).Height - e.Graphics.MeasureString("0", fontNr).Height
-                            stringSize = e.Graphics.MeasureString(dataReader(1).ToString, fontReg)
+                            stringSize = e.Graphics.MeasureString(dataReader(1).ToString, fontRegBold)
                             e.Graphics.DrawString("(" & dataReader(0).ToString & ")", fontNr, Brushes.Black, x + 40 + stringSize.Width, y + dy / 2 + 1)
                             ' Ergebnisse
                             e.Graphics.DrawString(Width2(dataReader(3).ToString), fontReg, Brushes.Black, x2, y)
