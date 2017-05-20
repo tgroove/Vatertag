@@ -28,7 +28,7 @@ Public Class frmTop10
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            'Console.WriteLine("queryString: " & queryString)
+            'Console.WriteLine(GetTimeStamp() & "  queryString: " & queryString)
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
             done = False
@@ -64,8 +64,8 @@ Public Class frmTop10
                 done = True
             Catch ex As Exception
                 tmrRangliste.Interval = tmrRangliste.Interval * 10
-                Console.WriteLine("queryString: " & queryString)
-                Console.WriteLine("Tick failed: ", ex.Message)
+                Console.WriteLine(GetTimeStamp() & " queryString: " & queryString)
+                Console.WriteLine(GetTimeStamp() & " Tick failed: ", ex.Message)
 
                 'If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
             End Try

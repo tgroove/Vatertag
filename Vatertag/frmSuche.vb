@@ -68,7 +68,7 @@ Public Class frmSuche
         queryString = "SELECT ID FROM Kunden WHERE Name = '" & txtTName.Text & "';"
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Console.WriteLine("queryString: " & queryString)
+            Console.WriteLine(GetTimeStamp() & " queryString: " & queryString)
             Dim dataReader As OleDbDataReader '= command.ExecuteReader()
 
             done = False
@@ -95,7 +95,7 @@ Public Class frmSuche
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
-                    Console.WriteLine("btnNeu failed: " & ex.Message)
+                    Console.WriteLine(GetTimeStamp() & " btnNeu failed: " & ex.Message)
                     If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                 End Try
             Loop Until done
@@ -114,7 +114,7 @@ Public Class frmSuche
 
         Using connection As New OleDbConnection(connectionString)
             Dim command2 As New OleDbCommand(queryString, connection)
-            Console.WriteLine("queryString: " & queryString)
+            Console.WriteLine(GetTimeStamp() & " queryString: " & queryString)
             done = False
             Do
                 Try
@@ -140,7 +140,7 @@ Public Class frmSuche
         queryString = "SELECT COUNT(*) FROM Kunden;"
         Using connection As New OleDbConnection(connectionString)
             Dim command2 As New OleDbCommand(queryString, connection)
-            Console.WriteLine("queryString: " & queryString)
+            Console.WriteLine(GetTimeStamp() & " queryString: " & queryString)
 
             done = False
             Do
@@ -415,7 +415,7 @@ Public Class frmSuche
 
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Console.WriteLine("queryString: " & queryString)
+            Console.WriteLine(GetTimeStamp() & " queryString: " & queryString)
             Dim stringSize As New SizeF
             done = False
             Do
@@ -554,7 +554,7 @@ Public Class frmSuche
         c = GetCounts()
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
-            Console.WriteLine("queryString: " & queryString)
+            Console.WriteLine(GetTimeStamp() & " queryString: " & queryString)
             done = False
             Do
                 Try
@@ -675,7 +675,7 @@ Public Class frmSuche
             queryString = "ALTER TABLE Kunden ALTER COLUMN ID COUNTER (1)"
             Using connection As New OleDbConnection(connectionString)
                 Dim command2 As New OleDbCommand(queryString, connection)
-                Console.WriteLine("queryString: " & queryString)
+                Console.WriteLine(GetTimeStamp() & " queryString: " & queryString)
                 Do
                     Try
                         If connection.State = ConnectionState.Closed Then connection.Open()
@@ -685,7 +685,7 @@ Public Class frmSuche
                         StoreSettingsInDB()
                         done = True
                     Catch ex As Exception
-                        Console.WriteLine("NeueDatenbankToolStrip failed: " & ex.Message)
+                        Console.WriteLine(GetTimeStamp() & " NeueDatenbankToolStrip failed: " & ex.Message)
                         If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
                     End Try
                 Loop Until done
