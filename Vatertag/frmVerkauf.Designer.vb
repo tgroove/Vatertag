@@ -104,10 +104,10 @@ Partial Class frmVerkauf
         'lblNr
         '
         Me.lblNr.AutoSize = True
-        Me.lblNr.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNr.Location = New System.Drawing.Point(69, 38)
+        Me.lblNr.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblNr.Location = New System.Drawing.Point(65, 40)
         Me.lblNr.Name = "lblNr"
-        Me.lblNr.Size = New System.Drawing.Size(30, 24)
+        Me.lblNr.Size = New System.Drawing.Size(34, 25)
         Me.lblNr.TabIndex = 5
         Me.lblNr.Text = "xx"
         Me.lblNr.TextAlign = System.Drawing.ContentAlignment.TopRight

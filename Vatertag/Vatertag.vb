@@ -93,6 +93,7 @@ Module Vatertag
 
     Public Function GetTeilnehmerData(Nr As Integer) As strucTeilnehmer
         Dim data As strucTeilnehmer
+        Dim NoResults As Boolean = True
         Dim queryString As String =
             "SELECT * from Kunden WHERE ID=" & Nr & ";"
         Dim done As Boolean = False
@@ -123,19 +124,25 @@ Module Vatertag
                         data.Scheibe3 = CInt(Val(dataReader(7)))
                         data.Scheibe4 = CInt(Val(dataReader(8)))
                         GetTeilnehmerData = data
+                        NoResults = False
                     Loop
                     dataReader.Close()
                     done = True
-                    Console.WriteLine(GetTimeStamp() & " GetTeilnehmerData: " _
-                                  & data.Nr & ", " _
-                                  & data.Name & ", " _
-                                  & "Scheiben: " & data.Scheiben & ", " _
-                                  & "Platzierung: " & data.Platzierung & ", " _
-                                  & "Änderung: " & data.Aenderung & ", " _
-                                  & "Ergebnisse: " & data.Scheibe1 & ", " _
-                                  & data.Scheibe2 & ", " _
-                                  & data.Scheibe3 & ", " _
-                                  & data.Scheibe4)
+                    If NoResults Then
+                        data.Nr = 0
+                        Console.WriteLine("GetTeilnehmerData failed. No Results found for Nr " & Nr)
+                    Else
+                        Console.WriteLine(GetTimeStamp() & " GetTeilnehmerData: " _
+                            & data.Nr & ", " _
+                            & data.Name & ", " _
+                            & "Scheiben: " & data.Scheiben & ", " _
+                            & "Platzierung: " & data.Platzierung & ", " _
+                            & "Änderung: " & data.Aenderung & ", " _
+                            & "Ergebnisse: " & data.Scheibe1 & ", " _
+                            & data.Scheibe2 & ", " _
+                            & data.Scheibe3 & ", " _
+                            & data.Scheibe4)
+                    End If
                 Catch ex As Exception
                     Console.WriteLine(GetTimeStamp() & " GetTeilnehmerData failed: " & ex.Message)
                     If MsgBox("Der Datensatz konnte nicht gelesen werden." & vbCrLf & ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True

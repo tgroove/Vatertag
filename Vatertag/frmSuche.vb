@@ -36,7 +36,7 @@ Public Class frmSuche
     Private Sub openDB()
         Dim FileName As String = My.Settings.lastFile
         If Dir(FileName) = "" Then filename = ""
-        frmTop10.tmrRangliste.Enabled = False
+        frmTop10.tmrRangliste.Enabled = True
         OpenFileDialog.CheckFileExists = True
         OpenFileDialog.InitialDirectory = FileName
         OpenFileDialog.FileName = FileName ' Path.GetFileName(FileName)
@@ -82,6 +82,7 @@ Public Class frmSuche
 
                         dataReader.Read()
                         TlnNr = dataReader(0)
+                        If TlnNr = 0 Then MsgBox("TlnNr = 0")
                         If mode = "Verkauf" Then
                             frmVerkauf.FillData(TlnNr)
                             frmVerkauf.Show()
@@ -150,8 +151,7 @@ Public Class frmSuche
             Do
                 Try
                     If connection.State = ConnectionState.Closed Then connection.Open()
-                    Dim dataReader3 As OleDbDataReader =
-                 command2.ExecuteReader()
+                    Dim dataReader3 As OleDbDataReader = command2.ExecuteReader()
                     dataReader3.Read()
                     TlnNr = dataReader3(0)
                     SetMaxNr(TlnNr)
@@ -408,7 +408,7 @@ Public Class frmSuche
 
         Dim StrFormat As New StringFormat()
         Dim LastErg As String = ""
-        Dim TellImage As Image = Image.FromFile("TELLCOMP.BMP")
+        Dim TellImage As Image = Image.FromFile(Application.StartupPath & "\TELLCOMP.BMP")
         Dim rtf As String = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}}"
         queryString = "SELECT ID, Name, Platzierung, Scheibe1, Scheibe2, Scheibe3, Scheibe4 " _
             & " FROM Kunden " _
@@ -549,7 +549,7 @@ Public Class frmSuche
 
         Dim StrFormat As New StringFormat()
         Dim LastErg As String = ""
-        Dim TellImage As Image = Image.FromFile("TELLCOMP.BMP")
+        Dim TellImage As Image = Image.FromFile(Application.StartupPath & "\TELLCOMP.BMP")
         Dim rtf As String = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}}"
         queryString = "SELECT ID, Name, Platzierung, Scheiben" _
             & " FROM Kunden " _
@@ -671,7 +671,7 @@ Public Class frmSuche
                     bytesRead = s.Read(buf, 0, buf.Length())
                 End While
             End Using
-
+            My.Settings.lastFile = filename
             file = Nothing
 
             connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & filename & "; OLE DB Services=-1"

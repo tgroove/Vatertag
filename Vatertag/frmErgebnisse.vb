@@ -122,6 +122,7 @@ Public Class frmErgebnisse
     End Sub
 
     Private Sub cmdClr_Click(sender As Object, e As EventArgs) Handles cmdClr.Click
+        If lblNr.Text = 0 Then MsgBox("lblNr.Text ist 0", MsgBoxStyle.Critical)
         FillData(Val(lblNr.Text))
         txtErgebnis.Focus()
     End Sub

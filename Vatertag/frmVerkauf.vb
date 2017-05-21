@@ -20,7 +20,7 @@ Public Class frmVerkauf
 
     Public Sub FillData(Nr As Integer)
         Dim data As strucTeilnehmer
-
+        'If Nr = 0 Then MsgBox("FillData: Nr = 0!!!")
         data = GetTeilnehmerData(Nr)
         lblNr.Text = data.Nr
         txtName.Text = data.Name
@@ -33,6 +33,7 @@ Public Class frmVerkauf
         txtBetragNeu.Enabled = True
         cmdTotal.Text = "Total"
         lblRest.Text = ""
+        'If data.Nr = 0 Then MsgBox("data.Nr = 0!!!")
 
         Console.WriteLine(GetTimeStamp() _
                           & " FillData: Nr: " & data.Nr _
