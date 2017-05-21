@@ -109,7 +109,8 @@ Public Class frmErgebnisse
             'Case Keys.Separator
             Case Keys.Enter, Keys.Return
                 If txtErgebnis.Text = "" Then
-                    cmdOK.Focus()
+                    Uebernehmen()
+                    'cmdOK.Focus()
                 Else
                     Ergebnisse(9).Wert = Val(txtErgebnis.Text)
                     Ergebnisse(9).Neu = True
@@ -128,6 +129,57 @@ Public Class frmErgebnisse
     End Sub
 
     Private Sub cmdOK_Click(sender As Object, e As EventArgs) Handles cmdOK.Click
+        Uebernehmen()
+    End Sub
+
+    Private Sub lblErg1_Click(sender As Object, e As EventArgs) Handles lblErg1.Click
+
+    End Sub
+
+    Private Sub lblErg1_DoubleClick(sender As Object, e As EventArgs) Handles lblErg1.DoubleClick
+        If vbYes = MsgBox("Ergebnis " & lblErg1.Text & " löschen?", vbQuestion + vbYesNo) Then
+            GelöschteErgebnisse = lblErg1.Text & ", "
+            Ergebnisse(0).Wert = 0
+            UpdateWerte()
+        End If
+    End Sub
+
+    Private Sub lblErg2_DoubleClick(sender As Object, e As EventArgs) Handles lblErg2.DoubleClick
+        If vbYes = MsgBox("Ergebnis " & lblErg2.Text & " löschen?", vbQuestion + vbYesNo) Then
+            GelöschteErgebnisse = lblErg2.Text & ", "
+            Ergebnisse(1).Wert = 0
+            UpdateWerte()
+        End If
+    End Sub
+
+    Private Sub lblErg3_DoubleClick(sender As Object, e As EventArgs) Handles lblErg3.DoubleClick
+        If vbYes = MsgBox("Ergebnis " & lblErg3.Text & " löschen?", vbQuestion + vbYesNo) Then
+            GelöschteErgebnisse = lblErg3.Text & ", "
+            Ergebnisse(2).Wert = 0
+            UpdateWerte()
+        End If
+    End Sub
+
+    Private Sub lblErg4_DoubleClick(sender As Object, e As EventArgs) Handles lblErg4.DoubleClick
+        If vbYes = MsgBox("Ergebnis " & lblErg4.Text & " löschen?", vbQuestion + vbYesNo) Then
+            GelöschteErgebnisse = lblErg4.Text & ", "
+            Ergebnisse(3).Wert = 0
+            UpdateWerte()
+        End If
+    End Sub
+
+    Private Sub frmErgebnisse_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
+        If e.KeyData = Keys.Escape Then
+            Me.Close()
+            frmSuche.Clear()
+        End If
+    End Sub
+
+    Private Sub txtErgebnis_TextChanged(sender As Object, e As EventArgs) Handles txtErgebnis.TextChanged
+
+    End Sub
+
+    Private Sub Uebernehmen()
         Dim RecordsAffected As Integer
         Dim queryString As String
         Dim LogText As String
@@ -195,48 +247,4 @@ Public Class frmErgebnisse
         frmTop10.tmrRangliste.Interval = 250
 
     End Sub
-
-    Private Sub lblErg1_Click(sender As Object, e As EventArgs) Handles lblErg1.Click
-
-    End Sub
-
-    Private Sub lblErg1_DoubleClick(sender As Object, e As EventArgs) Handles lblErg1.DoubleClick
-        If vbYes = MsgBox("Ergebnis " & lblErg1.Text & " löschen?", vbQuestion + vbYesNo) Then
-            GelöschteErgebnisse = lblErg1.Text & ", "
-            Ergebnisse(0).Wert = 0
-            UpdateWerte()
-        End If
-    End Sub
-
-    Private Sub lblErg2_DoubleClick(sender As Object, e As EventArgs) Handles lblErg2.DoubleClick
-        If vbYes = MsgBox("Ergebnis " & lblErg2.Text & " löschen?", vbQuestion + vbYesNo) Then
-            GelöschteErgebnisse = lblErg2.Text & ", "
-            Ergebnisse(1).Wert = 0
-            UpdateWerte()
-        End If
-    End Sub
-
-    Private Sub lblErg3_DoubleClick(sender As Object, e As EventArgs) Handles lblErg3.DoubleClick
-        If vbYes = MsgBox("Ergebnis " & lblErg3.Text & " löschen?", vbQuestion + vbYesNo) Then
-            GelöschteErgebnisse = lblErg3.Text & ", "
-            Ergebnisse(2).Wert = 0
-            UpdateWerte()
-        End If
-    End Sub
-
-    Private Sub lblErg4_DoubleClick(sender As Object, e As EventArgs) Handles lblErg4.DoubleClick
-        If vbYes = MsgBox("Ergebnis " & lblErg4.Text & " löschen?", vbQuestion + vbYesNo) Then
-            GelöschteErgebnisse = lblErg4.Text & ", "
-            Ergebnisse(3).Wert = 0
-            UpdateWerte()
-        End If
-    End Sub
-
-    Private Sub frmErgebnisse_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
-        If e.KeyData = Keys.Escape Then
-            Me.Close()
-            frmSuche.Clear()
-        End If
-    End Sub
-
 End Class

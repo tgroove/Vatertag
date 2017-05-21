@@ -395,6 +395,7 @@ Public Class frmSuche
         Dim fontNr As New Font("Arial", 10)
 
         Dim done As Boolean = False
+        Static Page As Integer = 1
 
         Dim x As Integer
         Dim y As Integer
@@ -422,6 +423,7 @@ Public Class frmSuche
             Console.WriteLine(GetTimeStamp() & " queryString: " & queryString)
             Dim stringSize As New SizeF
             done = False
+            Page = Page + 1
             Do
                 Try
                     If connection.State = ConnectionState.Closed Then connection.Open()
@@ -432,6 +434,7 @@ Public Class frmSuche
                     x = 100
                     x2 = 550
                     If PrintFromDataSet = 1 Then
+                        Page = 1
                         y = 20
                         e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 50, y + 32, 150, 135)
                         StrFormat.Alignment = StringAlignment.Center
@@ -461,6 +464,7 @@ Public Class frmSuche
                         If n >= PrintFromDataSet Then
                             y = y + 25
                             ' Platzierung
+                            If dataReader(2).ToString <> "0" Then _
                             e.Graphics.DrawString(dataReader(2).ToString, fontReg, Brushes.Black, x, y)
                             ' Name
                             e.Graphics.DrawString(dataReader(1).ToString, fontRegBold, Brushes.Black, x + 40, y)
@@ -486,6 +490,7 @@ Public Class frmSuche
                             End If
                         End If
                     Loop
+                    e.Graphics.DrawString("Seite " & Page, fontReg, Brushes.Black, e.PageBounds.Right - 90, e.PageBounds.Bottom - 50)
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
@@ -533,7 +538,9 @@ Public Class frmSuche
     Private Sub PrintAbschluss_PrintPage(sender As Object, e As Printing.PrintPageEventArgs) Handles PrintAbschluss.PrintPage
         Dim fontHead As New Font("Arial", 36)
         Dim fontReg As New Font("Arial", 12)
+        Dim fontTitle As New Font("Arial", 16, FontStyle.Bold)
         Dim fontRegBold As New Font("Arial", 12, FontStyle.Bold)
+        Static Page As Integer
 
         Dim done As Boolean = False
 
@@ -554,7 +561,7 @@ Public Class frmSuche
         queryString = "SELECT ID, Name, Platzierung, Scheiben" _
             & " FROM Kunden " _
             & " ORDER BY ID ASC;"
-
+        Page = Page + 1
         c = GetCounts()
         Using connection As New OleDbConnection(connectionString)
             Dim command As New OleDbCommand(queryString, connection)
@@ -570,13 +577,14 @@ Public Class frmSuche
                     x = 100
                     x2 = 450
                     If PrintFromDataSet = 1 Then
+                        Page = 1
                         y = 0
                         StrFormat.Alignment = StringAlignment.Center
-                        e.Graphics.DrawString(Veranstaltungsname, fontReg, Brushes.Black, x + 300, y + 0, StrFormat)
+                        e.Graphics.DrawString(Veranstaltungsname, fontTitle, Brushes.Black, x + 300, y + 15, StrFormat)
                         y = 50
                         e.Graphics.DrawString("Abschluss", fontHead, Brushes.Black, x, y)
                         e.Graphics.DrawString("Stand: " & Format(Now(), "dd.MM.yyyy  HH:mm:ss"), fontReg, Brushes.Black, x, y + 60)
-                        e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 50, 0, 150, 135)
+                        e.Graphics.DrawImage(TellImage, e.MarginBounds.Width - 60, 60, 150, 135)
                         y = y + 120
                         e.Graphics.DrawString("Zahlende Teilnehmer:", fontRegBold, Brushes.Black, x, y)
                         e.Graphics.DrawString(c.Teilnehmer, fontReg, Brushes.Black, x + 210, y)
@@ -619,6 +627,7 @@ Public Class frmSuche
                             End If
                         End If
                     Loop
+                    e.Graphics.DrawString("Seite " & Page, fontReg, Brushes.Black, e.PageBounds.Right - 90, e.PageBounds.Bottom - 50)
                     dataReader.Close()
                     done = True
                 Catch ex As Exception

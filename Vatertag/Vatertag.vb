@@ -49,7 +49,7 @@ Module Vatertag
         Dim done As Boolean = False
         Dim maxTlnrNr As Integer = 0
         Dim queryString As String =
-            "SELECT * from Kunden;"
+            "SELECT * from Kunden ORDER BY Name ASC;"
         ReDim Teilnehmer(1000)
 
         If (connectionString = "") Then Exit Sub
@@ -66,7 +66,7 @@ Module Vatertag
                     dataReader = command.ExecuteReader()
 
                     Do While dataReader.Read()
-                        Teilnehmer(n) = dataReader(0).ToString & "   " & dataReader(1).ToString
+                        Teilnehmer(n) = Width2(dataReader(0).ToString) & "   " & dataReader(1).ToString
                         n = n + 1
                         '   Console.WriteLine(
                         '   vbTab & "{0}" & vbTab & "{1}" & vbTab & "{2}",
