@@ -187,7 +187,7 @@ Partial Class frmSuche
         '
         'OpenFileDialog
         '
-        Me.OpenFileDialog.Filter = "Access|*.accdb"
+        Me.OpenFileDialog.Filter = "Microsoft Access (*.accdb)|*.accdb"
         Me.OpenFileDialog.Title = "Datenbank öffnen"
         '
         'rtbLog

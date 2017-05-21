@@ -34,6 +34,11 @@ Public Class frmVerkauf
         cmdTotal.Text = "Total"
         lblRest.Text = ""
 
+        Console.WriteLine(GetTimeStamp() _
+                          & " FillData: Nr: " & data.Nr _
+                          & ", Name: """ & data.Name & """" _
+                          & ", Scheiben: " & data.Scheiben)
+
     End Sub
 
     Private Sub txtScheibenNeu_TextChanged(sender As Object, e As EventArgs) Handles txtScheibenNeu.TextChanged

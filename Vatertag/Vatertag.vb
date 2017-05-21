@@ -126,7 +126,16 @@ Module Vatertag
                     Loop
                     dataReader.Close()
                     done = True
-
+                    Console.WriteLine(GetTimeStamp() & " GetTeilnehmerData: " _
+                                  & data.Nr & ", " _
+                                  & data.Name & ", " _
+                                  & "Scheiben: " & data.Scheiben & ", " _
+                                  & "Platzierung: " & data.Platzierung & ", " _
+                                  & "Änderung: " & data.Aenderung & ", " _
+                                  & "Ergebnisse: " & data.Scheibe1 & ", " _
+                                  & data.Scheibe2 & ", " _
+                                  & data.Scheibe3 & ", " _
+                                  & data.Scheibe4)
                 Catch ex As Exception
                     Console.WriteLine(GetTimeStamp() & " GetTeilnehmerData failed: " & ex.Message)
                     If MsgBox("Der Datensatz konnte nicht gelesen werden." & vbCrLf & ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
@@ -177,7 +186,7 @@ Module Vatertag
 
         If RecordsAffected <> 1 Then
             Console.Write("UpdatePosition failed. RecordsAffected = " & RecordsAffected)
-            MsgBox("Datensatz konnte nicht aktualisiert werden")
+            MsgBox("Datensatz konnte nicht aktualisiert werden", MsgBoxStyle.Critical)
         End If
 
     End Sub
@@ -213,6 +222,9 @@ Module Vatertag
                 End Try
             Loop Until done
         End Using
+        Console.WriteLine(GetTimeStamp() _
+                          & " Teilnehmer gesamt: " & AnzahlTeilnehmer & ", " _
+                          & "Scheiben gesamt: " & AnzahlScheiben)
         c.Scheiben = AnzahlScheiben
         c.Teilnehmer = AnzahlTeilnehmer
         GetCounts = c
@@ -259,6 +271,11 @@ Module Vatertag
                     Loop
                     dataReader.Close()
                     done = True
+                    Console.WriteLine(GetTimeStamp() _
+                            & " GetSettingsFromDB: " _
+                            & " Veranstaltungsname: " & Veranstaltungsname & ", " _
+                            & " Scheibenpreis: " & ScheibenPreis & ", " _
+                            & " Grundpreis: " & Grundpreis)
 
                 Catch ex As Exception
                     Console.WriteLine(GetTimeStamp() & " GetSettingsFromDB failed: " & ex.Message)

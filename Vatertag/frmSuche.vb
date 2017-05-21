@@ -39,7 +39,8 @@ Public Class frmSuche
         frmTop10.tmrRangliste.Enabled = False
         OpenFileDialog.CheckFileExists = True
         OpenFileDialog.InitialDirectory = FileName
-        OpenFileDialog.FileName = Path.GetFileName(FileName)
+        OpenFileDialog.FileName = FileName ' Path.GetFileName(FileName)
+        OpenFileDialog.ShowHelp = True
 
         If OpenFileDialog.ShowDialog(Me) = System.Windows.Forms.DialogResult.OK Then
             FileName = OpenFileDialog.FileName
@@ -85,11 +86,14 @@ Public Class frmSuche
                             frmVerkauf.FillData(TlnNr)
                             frmVerkauf.Show()
                             frmVerkauf.txtScheibenNeu.Focus()
+                            Console.WriteLine(GetTimeStamp() & " Verkauf an Nr: " & TlnNr)
                         Else
                             frmErgebnisse.FillData(TlnNr)
                             frmErgebnisse.Show()
                             frmErgebnisse.txtErgebnis.Focus()
+                            Console.WriteLine(GetTimeStamp() & " Ergebnisse für Nr: " & TlnNr)
                         End If
+                        dataReader.Close()
                         Exit Sub
                     End If
                     dataReader.Close()

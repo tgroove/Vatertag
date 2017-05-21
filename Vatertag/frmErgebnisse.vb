@@ -41,24 +41,14 @@ Public Class frmErgebnisse
         GelöschteErgebnisse = ""
         UpdateWerte()
 
-        'lblErg1.Text = daten.Scheibe1
-        'lblErg2.Text = daten.Scheibe2
-        'lblErg3.Text = daten.Scheibe3
-        'lblErg4.Text = daten.Scheibe4
-        'lblErg5.Text = ""
-        'lblErg6.Text = ""
-        'lblErg7.Text = ""
-        'lblErg8.Text = ""
-        'txtErgebnis.Text = ""
+        Console.WriteLine(GetTimeStamp() _
+                          & " Nr: " & daten.Nr & "," _
+                          & " Name: """ & daten.Name & """, " _
+                          & " Scheiben: " & daten.Scheibe1 _
+                          & ", " & daten.Scheibe2 _
+                          & ", " & daten.Scheibe3 _
+                          & ", " & daten.Scheibe4)
 
-        'lblErg1.ForeColor = SystemColors.ControlText
-        'lblErg2.ForeColor = SystemColors.ControlText
-        'lblErg3.ForeColor = SystemColors.ControlText
-        'lblErg4.ForeColor = SystemColors.ControlText
-        'lblErg5.ForeColor = SystemColors.ControlText
-        'lblErg6.ForeColor = SystemColors.ControlText
-        'lblErg7.ForeColor = SystemColors.ControlText
-        'lblErg8.ForeColor = SystemColors.ControlText
 
     End Sub
 
@@ -162,7 +152,7 @@ Public Class frmErgebnisse
                 & " (war: " & AlteErgebnisse & ")."
 
         ElseIf NeueErgebnisse <> "" Then
-        LogText = "Ergebnisse von """ & lblName.Text & """ (" & lblNr.Text & ") hinzugefügt: " _
+            LogText = "Ergebnisse von """ & lblName.Text & """ (" & lblNr.Text & ") hinzugefügt: " _
                 & NeueErgebnisse.Remove(NeueErgebnisse.Length - 2) _
                 & " (war: " & AlteErgebnisse & ")."
         Else
@@ -216,6 +206,7 @@ Public Class frmErgebnisse
             UpdateWerte()
         End If
     End Sub
+
     Private Sub lblErg2_DoubleClick(sender As Object, e As EventArgs) Handles lblErg2.DoubleClick
         If vbYes = MsgBox("Ergebnis " & lblErg2.Text & " löschen?", vbQuestion + vbYesNo) Then
             GelöschteErgebnisse = lblErg2.Text & ", "
@@ -223,6 +214,7 @@ Public Class frmErgebnisse
             UpdateWerte()
         End If
     End Sub
+
     Private Sub lblErg3_DoubleClick(sender As Object, e As EventArgs) Handles lblErg3.DoubleClick
         If vbYes = MsgBox("Ergebnis " & lblErg3.Text & " löschen?", vbQuestion + vbYesNo) Then
             GelöschteErgebnisse = lblErg3.Text & ", "
@@ -230,6 +222,7 @@ Public Class frmErgebnisse
             UpdateWerte()
         End If
     End Sub
+
     Private Sub lblErg4_DoubleClick(sender As Object, e As EventArgs) Handles lblErg4.DoubleClick
         If vbYes = MsgBox("Ergebnis " & lblErg4.Text & " löschen?", vbQuestion + vbYesNo) Then
             GelöschteErgebnisse = lblErg4.Text & ", "
@@ -244,6 +237,5 @@ Public Class frmErgebnisse
             frmSuche.Clear()
         End If
     End Sub
-
 
 End Class
