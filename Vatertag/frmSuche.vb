@@ -490,7 +490,7 @@ Public Class frmSuche
                             End If
                         End If
                     Loop
-                    e.Graphics.DrawString("Seite " & Page, fontReg, Brushes.Black, e.PageBounds.Right - 90, e.PageBounds.Bottom - 50)
+                    e.Graphics.DrawString("Seite " & Page, fontReg, Brushes.Black, e.PageBounds.Right - 90, e.PageBounds.Bottom - 65)
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
@@ -627,7 +627,7 @@ Public Class frmSuche
                             End If
                         End If
                     Loop
-                    e.Graphics.DrawString("Seite " & Page, fontReg, Brushes.Black, e.PageBounds.Right - 90, e.PageBounds.Bottom - 50)
+                    e.Graphics.DrawString("Seite " & Page, fontReg, Brushes.Black, e.PageBounds.Right - 90, e.PageBounds.Bottom - 65)
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
