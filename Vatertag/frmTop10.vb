@@ -56,7 +56,7 @@ Public Class frmTop10
                     End If
                     rtf = rtf & " " & Pos & "  " & dataReader(1).ToString _
                 & "\tqr\tx4320\tab " _
-                & Erg & " \tab\par\pard "
+                & Erg & " \par\pard "
                 Loop
                 dataReader.Close()
                 connection.Close()
@@ -70,7 +70,7 @@ Public Class frmTop10
                 'If MsgBox(ex.Message, MsgBoxStyle.RetryCancel) = MsgBoxResult.Cancel Then done = True
             End Try
             'Loop Until done
-
+            'Console.WriteLine("xxxxxx")
             Console.ReadLine()
         End Using
         If rtfRangliste.Rtf <> rtf Then rtfRangliste.Rtf = rtf
@@ -79,12 +79,20 @@ Public Class frmTop10
 
 
     Private Sub frmTop10_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
-        'e.Cancel = True
+        e.Cancel = True
     End Sub
 
 
     Private Sub frmTop10_ResizeEnd(sender As Object, e As EventArgs) Handles Me.ResizeEnd
-        rtfRangliste.Height = Me.Height - 55
+        'rtfRangliste.Height = Me.Height - 55
+        Me.Width = 454
     End Sub
 
+    Private Sub frmTop10_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub frmTop10_ChangeUICues(sender As Object, e As UICuesEventArgs) Handles Me.ChangeUICues
+
+    End Sub
 End Class

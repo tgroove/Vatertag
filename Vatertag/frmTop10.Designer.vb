@@ -35,11 +35,13 @@ Partial Class frmTop10
         '
         Me.rtfRangliste.BackColor = System.Drawing.SystemColors.ButtonFace
         Me.rtfRangliste.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.rtfRangliste.Location = New System.Drawing.Point(13, 13)
+        Me.rtfRangliste.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.rtfRangliste.Location = New System.Drawing.Point(10, 10)
+        Me.rtfRangliste.Margin = New System.Windows.Forms.Padding(0, 0, 0, 0)
         Me.rtfRangliste.Name = "rtfRangliste"
         Me.rtfRangliste.ReadOnly = True
-        Me.rtfRangliste.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None
-        Me.rtfRangliste.Size = New System.Drawing.Size(489, 237)
+        Me.rtfRangliste.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical
+        Me.rtfRangliste.Size = New System.Drawing.Size(418, 224)
         Me.rtfRangliste.TabIndex = 0
         Me.rtfRangliste.Text = ""
         '
@@ -47,10 +49,14 @@ Partial Class frmTop10
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(438, 262)
+        Me.ClientSize = New System.Drawing.Size(438, 244)
         Me.Controls.Add(Me.rtfRangliste)
-        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow
+        Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(454, 2000)
+        Me.MinimizeBox = False
         Me.Name = "frmTop10"
+        Me.Padding = New System.Windows.Forms.Padding(10)
         Me.ShowInTaskbar = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.Manual
         Me.Text = "Rangliste"

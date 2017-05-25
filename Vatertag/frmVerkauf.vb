@@ -137,10 +137,10 @@ Public Class frmVerkauf
     Private Sub txtName_TextChanged(sender As Object, e As EventArgs) Handles txtName.TextChanged
         If txtName.Text <> txtName.Tag Then
             Console.WriteLine(GetTimeStamp() & " txtName_Text_Changed " & txtName.Text)
-            txtScheibenNeu.Text = ""
-            txtScheibenNeu.Enabled = False
             txtBetragNeu.Text = ""
             txtBetragNeu.Enabled = False
+            txtScheibenNeu.Text = ""
+            txtScheibenNeu.Enabled = False
             cmdTotal.Text = "OK"
         Else
             txtScheibenNeu.Enabled = True

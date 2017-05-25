@@ -103,14 +103,14 @@ Partial Class frmVerkauf
         '
         'lblNr
         '
-        Me.lblNr.AutoSize = True
         Me.lblNr.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblNr.Location = New System.Drawing.Point(65, 40)
+        Me.lblNr.Location = New System.Drawing.Point(34, 40)
+        Me.lblNr.Margin = New System.Windows.Forms.Padding(0)
         Me.lblNr.Name = "lblNr"
-        Me.lblNr.Size = New System.Drawing.Size(34, 25)
+        Me.lblNr.Size = New System.Drawing.Size(68, 25)
         Me.lblNr.TabIndex = 5
-        Me.lblNr.Text = "xx"
-        Me.lblNr.TextAlign = System.Drawing.ContentAlignment.TopRight
+        Me.lblNr.Text = "000"
+        Me.lblNr.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'txtScheibenNeu
         '
@@ -157,6 +157,7 @@ Partial Class frmVerkauf
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(509, 259)
+        Me.Controls.Add(Me.txtName)
         Me.Controls.Add(Me.lblRest)
         Me.Controls.Add(Me.txtBetragNeu)
         Me.Controls.Add(Me.txtScheibenNeu)
@@ -167,7 +168,6 @@ Partial Class frmVerkauf
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.cmdTotal)
-        Me.Controls.Add(Me.txtName)
         Me.KeyPreview = True
         Me.Name = "frmVerkauf"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

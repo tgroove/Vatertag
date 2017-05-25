@@ -176,21 +176,35 @@ Public Class frmSuche
         Dim n As Integer
         If txtTName.Text <> "" Then
             Filter = Trim(txtTName.Text)
+            With lstTeilnehmer.Items
+                .Clear()
+                For n = 0 To UBound(tlnr)
+                    If Filter <> "" Then
+                        If InStr(1, tlnr(n), Filter, CompareMethod.Text) > 0 Then .Add(tlnr(n))
+                    Else
+                        .Add(tlnr(n))
+                    End If
+                Next
+            End With
+        ElseIf txtTNummer.Text <> "" Then
+            Filter = Trim(txtTNummer.Text) & " "
+            With lstTeilnehmer.Items
+                .Clear()
+                For n = 0 To UBound(tlnr)
+                    If Trim(tlnr(n)).StartsWith(Filter) Then .Add(tlnr(n))
+                Next
+            End With
         Else
-            Filter = Trim(txtTNummer.Text)
+            With lstTeilnehmer.Items
+                .Clear()
+                For n = 0 To UBound(tlnr)
+                    .Add(tlnr(n))
+                Next
+            End With
+
         End If
 
 
-        With lstTeilnehmer.Items
-            .Clear()
-            For n = 0 To UBound(tlnr)
-                If Filter <> "" Then
-                    If InStr(1, tlnr(n), Filter, CompareMethod.Text) > 0 Then .Add(tlnr(n))
-                Else
-                    .Add(tlnr(n))
-                End If
-            Next
-        End With
     End Sub
 
     Private Sub mnuOpenDB_Click(sender As Object, e As EventArgs) Handles mnuOpenDB.Click
@@ -444,7 +458,7 @@ Public Class frmSuche
                         e.Graphics.DrawString("Stand: " & Format(Now(), "HH:mm"), fontReg, Brushes.Black, x + 17, y + 50)
                         y = y + 50
                     Else
-                        y = 1
+                        y = -22
                     End If
 
                     y = y + 20
@@ -597,7 +611,7 @@ Public Class frmSuche
                         y = y + 50
 
                     Else
-                        y = 1
+                        y = -22
                     End If
 
                     Do While dataReader.Read()
@@ -749,6 +763,14 @@ Public Class frmSuche
         'PrintErgebnisse.Print()
         PrintPreviewErgebnisse.WindowState = FormWindowState.Maximized
         PrintPreviewErgebnisse.ShowDialog()
+
+    End Sub
+
+    Private Sub lstTeilnehmer_KeyPress(sender As Object, e As KeyPressEventArgs) Handles lstTeilnehmer.KeyPress
+        If e.KeyChar <> ChrW(13) Then
+            txtTNummer.Focus()
+            SendKeys.Send(e.KeyChar)
+        End If
 
     End Sub
 End Class
