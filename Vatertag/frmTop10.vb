@@ -8,13 +8,50 @@ Public Class frmTop10
     Private Sub tmrRangliste_Tick(sender As Object, e As EventArgs) Handles tmrRangliste.Tick
 
         Dim queryString As String
-        Dim n As Integer
+        Static Dim n As Integer
         Dim Erg As String
         Dim LastErg As String = ""
         Dim offset As Integer
         Dim Pos As Integer
+        Dim fieldcount As Integer
         Dim done As Boolean = False
         Dim rtf As String = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}}"
+        Dim html As String = "<!DOCTYPE html>" & vbCrLf _
+          & "<html lang=""de"">" & vbCrLf _
+          & "  <head>" & vbCrLf _
+          & "  <meta charset=""utf-8"" /> " & vbCrLf _
+          & "    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />" & vbCrLf _
+          & "    <title>Aktuelle Rangliste</title>" & vbCrLf _
+          & "    <style>" & vbCrLf _
+          & "      table {" & vbCrLf _
+          & "        margin:          0px auto;" & vbCrLf _
+          & "        font-family:     'Liberation Sans', Arial, Helvetica, sans-serif;" & vbCrLf _
+          & "        font-size:       70px;" & vbCrLf _
+          & "        border-collapse: collapse;" & vbCrLf _
+          & "      }" & vbCrLf _
+          & "      th, td {" & vbCrLf _
+          & "        Padding-Top:    5px;" & vbCrLf _
+          & "        Padding-Bottom: 5px;" & vbCrLf _
+          & "        Padding-Left:   20px;" & vbCrLf _
+          & "        Padding-Right:  20px;" & vbCrLf _
+          & "        border-spacing: 0px; " & vbCrLf _
+          & "        Font-family:    'Liberation Sans', Arial, Helvetica, sans-serif;" & vbCrLf _
+          & "        font-size:      35px;" & vbCrLf _
+          & "        xText-align:    center;" & vbCrLf _
+          & "      }" & vbCrLf _
+          & "      td {" & vbCrLf _
+          & "        border-top:     3px solid #000;" & vbCrLf _
+          & "        border-bottom:  3px solid #000;" & vbCrLf _
+          & "      }" & vbCrLf _
+          & "    </style>" & vbCrLf _
+          & "  </head>" & vbCrLf _
+          & "  <body>" & vbCrLf _
+          & "    <font face=""verdana"">" & vbCrLf _
+          & "      <table  border=""5"" bordercolor=WHITE>" & vbCrLf _
+          & "        <caption><p><strong>Aktuelle Rangliste</strong></p></caption>" & vbCrLf _
+          & "        <tr><td valign=""top"">" & vbCrLf _
+          & "          <table>"
+
         queryString = "SELECT ID, Name, Platzierung, Scheibe1, Scheibe2, Scheibe3, Scheibe4 " _
             & " FROM Kunden " _
             & " WHERE Scheibe1 > 0 " _
@@ -36,12 +73,13 @@ Public Class frmTop10
             Try
                 If connection.State = ConnectionState.Closed Then connection.Open()
                 dataReader = command.ExecuteReader()
+                fieldcount = n
                 n = 0
                 Do While dataReader.Read()
                     Erg = dataReader(3).ToString & "  " _
-                & dataReader(4).ToString & "  " _
-                & dataReader(5).ToString & "  " _
-                & dataReader(6).ToString
+                      & dataReader(4).ToString & "  " _
+                      & dataReader(5).ToString & "  " _
+                      & dataReader(6).ToString
                     n = n + 1
 
                     If Erg = LastErg Then
@@ -55,8 +93,25 @@ Public Class frmTop10
                         UpdatePosition(Val(dataReader(0).ToString), Pos)
                     End If
                     rtf = rtf & " " & Pos & "  " & dataReader(1).ToString _
-                & "\tqr\tx4320\tab " _
-                & Erg & " \par\pard "
+                      & "\tqr\tx4320\tab " _
+                      & Erg & " \par\pard "
+                    html = html & vbCrLf _
+                      & "            <tr>" _
+                      & "<td align=""center"">" & Pos & " </td>" _
+                      & "<td align=""left"">" & dataReader(1).ToString & " </td>" _
+                      & "<td>&nbsp;&nbsp;</td>" _
+                      & "<td align=""center"">" & dataReader(3).ToString & " </td>" _
+                      & "<td align=""center"">" & dataReader(4).ToString & " </td>" _
+                      & "<td align=""center"">" & dataReader(5).ToString & " </td>" _
+                      & "<td align=""center"">" & dataReader(6).ToString & " </td>" _
+                      & " </tr>"
+                    If (fieldcount > 4) And (n = Int(fieldcount / 2 + 0.5)) Then
+                        html = html & vbCrLf _
+                          & "          </table>" & vbCrLf _
+                          & "        </td>" & vbCrLf _
+                          & "        <td valign=""top"">" & vbCrLf _
+                          & "          <table>"
+                    End If
                 Loop
                 dataReader.Close()
                 connection.Close()
@@ -74,7 +129,17 @@ Public Class frmTop10
             Console.ReadLine()
         End Using
         If rtfRangliste.Rtf <> rtf Then rtfRangliste.Rtf = rtf
+        html = html & vbCrLf _
+          & "          </table>" & vbCrLf _
+          & "        </td></tr>" & vbCrLf _
+          & "      </table>" & vbCrLf _
+          & "    </font>" & vbCrLf _
+          & "  </body>" & vbCrLf _
+          & "</html>"
         tmrRangliste.Enabled = True
+        'Debug.Print(html)
+        My.Computer.FileSystem.WriteAllText(Replace(My.Settings.lastFile, ".accdb", ".html", 1,, CompareMethod.Text), html, False)
+
     End Sub
 
 
