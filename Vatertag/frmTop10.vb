@@ -21,12 +21,12 @@ Public Class frmTop10
         Dim rtf As String = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}}"
 
         Select Case n
-            Case > 20
+            Case > 30
                 '3 Spalten
-                Spaltentrenner1 = n / 3 + 0.5
-                Spaltentrenner2 = n / 3 * 2 + 0
-                FontSizeFactor = 0.9
-            Case > 10
+                Spaltentrenner1 = n / 3 + 0.4
+                Spaltentrenner2 = (n - Spaltentrenner1) / 2 + 0.4 + Spaltentrenner1
+                FontSizeFactor = 0.8
+            Case > 15
                 '2 Spalten
                 Spaltentrenner1 = n / 2 + 0.1
                 Spaltentrenner2 = -1
@@ -43,6 +43,7 @@ Public Class frmTop10
           & "  <head>" & vbCrLf _
           & "  <meta charset=""utf-8"" /> " & vbCrLf _
           & "    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />" & vbCrLf _
+          & "    <meta http-equiv=""refresh"" content=""5; URL=rangliste.html"">" & vbCrLf _
           & "    <title>Aktuelle Rangliste</title>" & vbCrLf _
           & "    <style>" & vbCrLf _
           & "      table {" & vbCrLf _
@@ -71,8 +72,9 @@ Public Class frmTop10
           & "    <font face=""Helvetica"">" & vbCrLf _
           & "      <p><strong><div style=""font-size:" & CInt(0.6 * FontSize) & "pt;text-align:center"">Aktuelle Rangliste</div></strong></p>" & vbCrLf _
           & "      <table  border=""5"" bordercolor=WHITE>" & vbCrLf _
-          & "        <tr><td valign=""top"">" & vbCrLf _
-          & "          <table>"
+          & "        <tr>" & vbCrLf _
+          & "          <td valign=""top"">" & vbCrLf _
+          & "            <table>"
 
         '& "        <caption><strong><span style=""font-size:" & CInt(0.7 * FontSize) & "pt"">&nbsp;</span>Aktuelle Rangliste<span style=""font-size:" & CInt(0.7 * FontSize) & "pt"">&nbsp;</span></strong></caption>" & vbCrLf _
 
@@ -120,7 +122,7 @@ Public Class frmTop10
                       & "\tqr\tx4320\tab " _
                       & Erg & " \par\pard "
                     html = html & vbCrLf _
-                      & "            <tr>" _
+                      & "              <tr>" _
                       & "<td align=""center"">" & Pos & " </td>" _
                       & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.2 * FontSize * FontSizeFactor) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
                       & "<td>&nbsp;</td>" _
@@ -132,11 +134,11 @@ Public Class frmTop10
                     'If (fieldcount > 4) And (n = Int(fieldcount / 2 + 0.5)) Then
                     If (n = Spaltentrenner1) Or (n = Spaltentrenner2) Then
                         html = html & vbCrLf _
-                              & "          </table>" & vbCrLf _
-                              & "        </td>" & vbCrLf _
-                              & "        <td>&nbsp;</td>" & vbCrLf _
-                              & "        <td valign=""top"">" & vbCrLf _
-                              & "          <table>"
+                              & "            </table>" & vbCrLf _
+                              & "          </td>" & vbCrLf _
+                              & "          <td>&nbsp;</td>" & vbCrLf _
+                              & "          <td valign=""top"">" & vbCrLf _
+                              & "            <table>"
                     End If
                 Loop
                 dataReader.Close()
@@ -156,8 +158,9 @@ Public Class frmTop10
         End Using
         If rtfRangliste.Rtf <> rtf Then rtfRangliste.Rtf = rtf
         html = html & vbCrLf _
-          & "          </table>" & vbCrLf _
-          & "        </td></tr>" & vbCrLf _
+          & "            </table>" & vbCrLf _
+          & "          </td>" & vbCrLf _
+          & "        </tr>" & vbCrLf _
           & "      </table>" & vbCrLf _
           & "    </font>" & vbCrLf _
           & "  </body>" & vbCrLf _
