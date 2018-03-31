@@ -16,32 +16,51 @@ Public Class frmTop10
         Dim fieldcount As Integer = 0
         Dim Spaltentrenner1 As Integer
         Dim Spaltentrenner2 As Integer
+        h        Dim border As Integer = 3
+        Dim Padding As Integer = 5
+        Dim MaxAnzZeilen As Integer
         Dim FontSizeFactor As Single
         Dim done As Boolean = False
         Dim rtf As String = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}}"
 
         Select Case n
-            Case > 30
+            Case > 2 * 19
                 '3 Spalten
+                MaxAnzZeilen = 22
                 Spaltentrenner1 = n / 3 + 0.4
                 Spaltentrenner2 = (n - Spaltentrenner1) / 2 + 0.4 + Spaltentrenner1
-                FontSizeFactor = 0.8
-            Case > 15
+                border = 2
+                Padding = 5
+                FontSizeFactor = 0.77
+                If Spaltentrenner1 > MaxAnzZeilen Then
+                    Spaltentrenner1 = MaxAnzZeilen
+                    Spaltentrenner2 = MaxAnzZeilen * 2
+                End If
+            Case > 16
                 '2 Spalten
+                MaxAnzZeilen = 19
                 Spaltentrenner1 = n / 2 + 0.1
-                Spaltentrenner2 = -1
-                FontSizeFactor = 1
+                Spaltentrenner2 = 1000
+                border = 3
+                Padding = 4
+                FontSizeFactor = 0.95
             Case Else
                 '1 Spalte
-                Spaltentrenner1 = -1
-                Spaltentrenner2 = -1
+                Spaltentrenner1 = 1000
+                Spaltentrenner2 = 1000
+                border = 3
+                Padding = 5
                 FontSizeFactor = 1.1
         End Select
 
-        Dim html As String = "<!DOCTYPE html>" & vbCrLf _
+        Dim html As String
+        Dim html_page1 As String = ""
+        Dim html_page2 As String = ""
+        Static page As Integer = 1
+        Dim html_vor As String = "<!DOCTYPE html>" & vbCrLf _
           & "<html lang=""de"">" & vbCrLf _
           & "  <head>" & vbCrLf _
-          & "  <meta charset=""utf-8"" /> " & vbCrLf _
+          & "    <meta charset=""utf-8"" /> " & vbCrLf _
           & "    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />" & vbCrLf _
           & "    <meta http-equiv=""refresh"" content=""5; URL=rangliste.html"">" & vbCrLf _
           & "    <title>Aktuelle Rangliste</title>" & vbCrLf _
@@ -53,18 +72,18 @@ Public Class frmTop10
           & "        border-collapse: collapse;" & vbCrLf _
           & "      }" & vbCrLf _
           & "      th, td {" & vbCrLf _
-          & "        Padding-Top:    5px;" & vbCrLf _
-          & "        Padding-Bottom: 5px;" & vbCrLf _
-          & "        Padding-Left:   11px;" & vbCrLf _
-          & "        Padding-Right:  11px;" & vbCrLf _
+          & "        Padding-Top:    " & Padding & "px;" & vbCrLf _
+          & "        Padding-Bottom: " & Padding & "px;" & vbCrLf _
+          & "        Padding-Left:   9px;" & vbCrLf _
+          & "        Padding-Right:  9px;" & vbCrLf _
           & "        border-spacing: 0px; " & vbCrLf _
           & "        Font-family:    'Liberation Sans', Arial, Helvetica, sans-serif;" & vbCrLf _
           & "        font-size:      " & CInt(0.25 * FontSize * FontSizeFactor) & "pt;" & vbCrLf _
           & "        xText-align:    center;" & vbCrLf _
           & "      }" & vbCrLf _
           & "      td {" & vbCrLf _
-          & "        border-top:     3px solid #000;" & vbCrLf _
-          & "        border-bottom:  3px solid #000;" & vbCrLf _
+          & "        border-top:     " & border & "px solid #000;" & vbCrLf _
+          & "        border-bottom:  " & border & "px solid #000;" & vbCrLf _
           & "      }" & vbCrLf _
           & "    </style>" & vbCrLf _
           & "  </head>" & vbCrLf _
@@ -121,24 +140,45 @@ Public Class frmTop10
                     rtf = rtf & " " & Pos & "  " & dataReader(1).ToString _
                       & "\tqr\tx4320\tab " _
                       & Erg & " \par\pard "
-                    html = html & vbCrLf _
-                      & "              <tr>" _
-                      & "<td align=""center"">" & Pos & " </td>" _
-                      & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.2 * FontSize * FontSizeFactor) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
-                      & "<td>&nbsp;</td>" _
-                      & "<td align=""center"">" & dataReader(3).ToString & " </td>" _
-                      & "<td align=""center"">" & dataReader(4).ToString & " </td>" _
-                      & "<td align=""center"">" & dataReader(5).ToString & " </td>" _
-                      & "<td align=""center"">" & dataReader(6).ToString & " </td>" _
-                      & " </tr>"
-                    'If (fieldcount > 4) And (n = Int(fieldcount / 2 + 0.5)) Then
-                    If (n = Spaltentrenner1) Or (n = Spaltentrenner2) Then
-                        html = html & vbCrLf _
+                    If n <= 3 * Spaltentrenner1 Then
+                        html_page1 = html_page1 & vbCrLf _
+                          & "              <tr>" _
+                          & "<td align=""center"">" & Pos & " </td>" _
+                          & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.2 * FontSize * FontSizeFactor) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
+                          & "<td align=""center"">" & dataReader(3).ToString & " </td>" _
+                          & "<td align=""center"">" & dataReader(4).ToString & " </td>" _
+                          & "<td align=""center"">" & dataReader(5).ToString & " </td>" _
+                          & "<td align=""center"">" & dataReader(6).ToString & " </td>" _
+                          & " </tr>"
+                        'If (fieldcount > 4) And (n = Int(fieldcount / 2 + 0.5)) Then
+                        If (n = Spaltentrenner1) Or (n = Spaltentrenner2) Then
+                            html_page1 = html_page1 & vbCrLf _
                               & "            </table>" & vbCrLf _
                               & "          </td>" & vbCrLf _
                               & "          <td>&nbsp;</td>" & vbCrLf _
                               & "          <td valign=""top"">" & vbCrLf _
                               & "            <table>"
+                        End If
+                    Else
+                        html_page2 = html_page2 & vbCrLf _
+                          & "              <tr>" _
+                          & "<td align=""center"">" & Pos & " </td>" _
+                          & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.2 * FontSize * FontSizeFactor) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
+                          & "<td align=""center"">" & dataReader(3).ToString & " </td>" _
+                          & "<td align=""center"">" & dataReader(4).ToString & " </td>" _
+                          & "<td align=""center"">" & dataReader(5).ToString & " </td>" _
+                          & "<td align=""center"">" & dataReader(6).ToString & " </td>" _
+                          & " </tr>"
+                        'If (fieldcount > 4) And (n = Int(fieldcount / 2 + 0.5)) Then
+                        If (n = Spaltentrenner1 + 3 * Spaltentrenner1) Or (n = Spaltentrenner2 + 3 * Spaltentrenner1) Then
+                            html_page2 = html_page2 & vbCrLf _
+                              & "            </table>" & vbCrLf _
+                              & "          </td>" & vbCrLf _
+                              & "          <td>&nbsp;</td>" & vbCrLf _
+                              & "          <td valign=""top"">" & vbCrLf _
+                              & "            <table>"
+                        End If
+
                     End If
                 Loop
                 dataReader.Close()
@@ -157,7 +197,7 @@ Public Class frmTop10
             Console.ReadLine()
         End Using
         If rtfRangliste.Rtf <> rtf Then rtfRangliste.Rtf = rtf
-        html = html & vbCrLf _
+        Dim html_nach As String = vbCrLf _
           & "            </table>" & vbCrLf _
           & "          </td>" & vbCrLf _
           & "        </tr>" & vbCrLf _
@@ -167,7 +207,24 @@ Public Class frmTop10
           & "</html>"
         tmrRangliste.Enabled = True
         'Debug.Print(html)
-        My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(My.Settings.lastFile) & "\rangliste.html", html, False)
+
+        If html_page2 <> "" Then
+            page = page + 1
+            If page = 10000 Then page = 1
+            If (page Mod 10) < 7 Then
+                html = html_vor & html_page1 & html_nach
+            Else
+                html = html_vor & html_page2 & html_nach
+            End If
+        Else
+            html = html_vor & html_page1 & html_nach
+        End If
+
+        If mode = "Auswertung" Then
+            My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(My.Settings.lastFile) & "\rl.htm", html, False)
+        Else
+            My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(My.Settings.lastFile) & "\rl_vk.htm", html, False)
+        End If
     End Sub
 
 
