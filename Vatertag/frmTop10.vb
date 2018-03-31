@@ -16,7 +16,7 @@ Public Class frmTop10
         Dim fieldcount As Integer = 0
         Dim Spaltentrenner1 As Integer
         Dim Spaltentrenner2 As Integer
-        h        Dim border As Integer = 3
+        Dim border As Integer = 3
         Dim Padding As Integer = 5
         Dim MaxAnzZeilen As Integer
         Dim FontSizeFactor As Single
@@ -31,7 +31,7 @@ Public Class frmTop10
                 Spaltentrenner2 = (n - Spaltentrenner1) / 2 + 0.4 + Spaltentrenner1
                 border = 2
                 Padding = 5
-                FontSizeFactor = 0.77
+                FontSizeFactor = 0.7
                 If Spaltentrenner1 > MaxAnzZeilen Then
                     Spaltentrenner1 = MaxAnzZeilen
                     Spaltentrenner2 = MaxAnzZeilen * 2
@@ -43,14 +43,14 @@ Public Class frmTop10
                 Spaltentrenner2 = 1000
                 border = 3
                 Padding = 4
-                FontSizeFactor = 0.95
+                FontSizeFactor = 0.9
             Case Else
                 '1 Spalte
                 Spaltentrenner1 = 1000
                 Spaltentrenner2 = 1000
                 border = 3
                 Padding = 5
-                FontSizeFactor = 1.1
+                FontSizeFactor = 1
         End Select
 
         Dim html As String
@@ -62,7 +62,7 @@ Public Class frmTop10
           & "  <head>" & vbCrLf _
           & "    <meta charset=""utf-8"" /> " & vbCrLf _
           & "    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />" & vbCrLf _
-          & "    <meta http-equiv=""refresh"" content=""5; URL=rangliste.html"">" & vbCrLf _
+          & "    <meta http-equiv=""refresh"" content=""5; URL=rl.htm"">" & vbCrLf _
           & "    <title>Aktuelle Rangliste</title>" & vbCrLf _
           & "    <style>" & vbCrLf _
           & "      table {" & vbCrLf _
