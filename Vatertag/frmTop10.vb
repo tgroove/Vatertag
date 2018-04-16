@@ -23,45 +23,20 @@ Public Class frmTop10
         Dim done As Boolean = False
         Dim rtf As String = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}}"
 
-        Select Case n
-            Case > 2 * 19
-                '3 Spalten
-                MaxAnzZeilen = 22
-                Spaltentrenner1 = n / 3 + 0.4
-                Spaltentrenner2 = (n - Spaltentrenner1) / 2 + 0.4 + Spaltentrenner1
-                border = 2
-                Padding = 5
-                FontSizeFactor = 0.7
-                If Spaltentrenner1 > MaxAnzZeilen Then
-                    Spaltentrenner1 = MaxAnzZeilen
-                    Spaltentrenner2 = MaxAnzZeilen * 2
-                End If
-            Case > 16
-                '2 Spalten
-                MaxAnzZeilen = 19
-                Spaltentrenner1 = n / 2 + 0.1
-                Spaltentrenner2 = 1000
-                border = 3
-                Padding = 4
-                FontSizeFactor = 0.9
-            Case Else
-                '1 Spalte
-                Spaltentrenner1 = 1000
-                Spaltentrenner2 = 1000
-                border = 3
-                Padding = 5
-                FontSizeFactor = 1
-        End Select
-
         Dim ZeilenProSpalte = 15
         FontSizeFactor = 1.1
         border = 3
         Padding = 8
 
+        Dim FontSizeFactor_all As Single = 0.5
+        Dim border_all As Integer = 1
+        Dim Padding_all As Integer = 3
+
         Dim html As String
         Dim html_page1 As String = ""
         Dim html_page2 As String = ""
         Dim html_page(10) As String
+        'Dim html_all As String = ""
         Dim page As Integer = 0
         Static p As Integer = 0
         Dim html_vor As String = "<!DOCTYPE html>" & vbCrLf _
@@ -107,7 +82,41 @@ Public Class frmTop10
           & "              <col width=""60"">" & vbCrLf _
           & "              <col width=""60"">" & vbCrLf _
           & "              <col width=""60"">" & vbCrLf _
-          & "              <col width=""60"">" & vbCrLf _
+          & "              <col width=""60"">" & vbCrLf
+
+        Dim html_all As String = "<!DOCTYPE html>" & vbCrLf _
+          & "<html lang=""de"">" & vbCrLf _
+          & "  <head>" & vbCrLf _
+          & "    <meta charset=""utf-8"" /> " & vbCrLf _
+          & "    <meta name=""viewport"" content=""width=device-width, initial-scale=1.0"" />" & vbCrLf _
+          & "    <title>Aktuelle Rangliste</title>" & vbCrLf _
+          & "    <style>" & vbCrLf _
+          & "      table {" & vbCrLf _
+          & "        margin:          0px auto;" & vbCrLf _
+          & "        font-family:     'Liberation Sans', Arial, Helvetica, sans-serif;" & vbCrLf _
+          & "        font-size:       " & CInt(0.7 * FontSize * FontSizeFactor_all) & "pt;" & vbCrLf _
+          & "        border-collapse: collapse;" & vbCrLf _
+          & "      }" & vbCrLf _
+          & "      th, td {" & vbCrLf _
+          & "        Padding-Top:    " & Padding_all & "px;" & vbCrLf _
+          & "        Padding-Bottom: " & Padding_all & "px;" & vbCrLf _
+          & "        Padding-Left:   6px;" & vbCrLf _
+          & "        Padding-Right:  6px;" & vbCrLf _
+          & "        border-spacing: 0px; " & vbCrLf _
+          & "        Font-family:    'Liberation Sans', Arial, Helvetica, sans-serif;" & vbCrLf _
+          & "        font-size:      " & CInt(0.25 * FontSize * FontSizeFactor_all) & "pt;" & vbCrLf _
+          & "        xText-align:    center;" & vbCrLf _
+          & "      }" & vbCrLf _
+          & "      td {" & vbCrLf _
+          & "        border-top:     " & border_all & "px solid #000;" & vbCrLf _
+          & "        border-bottom:  " & border_all & "px solid #000;" & vbCrLf _
+          & "      }" & vbCrLf _
+          & "    </style>" & vbCrLf _
+          & "  </head>" & vbCrLf _
+          & "  <body>" & vbCrLf _
+          & "    <font face=""Helvetica"">" & vbCrLf _
+          & "      <table>" & vbCrLf
+
 
         '& "        <caption><strong><span style=""font-size:" & CInt(0.7 * FontSize) & "pt"">&nbsp;</span>Aktuelle Rangliste<span style=""font-size:" & CInt(0.7 * FontSize) & "pt"">&nbsp;</span></strong></caption>" & vbCrLf _
 
@@ -160,6 +169,15 @@ Public Class frmTop10
                           & "              <tr>" _
                           & "<td align=""center"">" & Pos & " </td>" _
                           & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.2 * FontSize * FontSizeFactor) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
+                          & "<td align=""center"">" & dataReader(3).ToString & " </td>" _
+                          & "<td align=""center"">" & dataReader(4).ToString & " </td>" _
+                          & "<td align=""center"">" & dataReader(5).ToString & " </td>" _
+                          & "<td align=""center"">" & dataReader(6).ToString & " </td>" _
+                          & " </tr>"
+                    html_all = html_all & vbCrLf _
+                          & "            <tr>" _
+                          & "<td align=""center"">" & Pos & " </td>" _
+                          & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.2 * FontSize * FontSizeFactor_all) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
                           & "<td align=""center"">" & dataReader(3).ToString & " </td>" _
                           & "<td align=""center"">" & dataReader(4).ToString & " </td>" _
                           & "<td align=""center"">" & dataReader(5).ToString & " </td>" _
@@ -222,10 +240,17 @@ Public Class frmTop10
             Console.ReadLine()
         End Using
         If rtfRangliste.Rtf <> rtf Then rtfRangliste.Rtf = rtf
+
         Dim html_nach As String = vbCrLf _
           & "            </table>" & vbCrLf _
           & "          </td>" & vbCrLf _
           & "        </tr>" & vbCrLf _
+          & "      </table>" & vbCrLf _
+          & "    </font>" & vbCrLf _
+          & "  </body>" & vbCrLf _
+          & "</html>"
+
+        html_all = html_all & vbCrLf _
           & "      </table>" & vbCrLf _
           & "    </font>" & vbCrLf _
           & "  </body>" & vbCrLf _
@@ -249,8 +274,10 @@ Public Class frmTop10
         html = html_vor & html_page(((p \ 4) Mod (page)) + 1) & html_nach
         If mode = "Auswertung" Then
             My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(My.Settings.lastFile) & "\rl.htm", html, False)
+            My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(My.Settings.lastFile) & "\rla.htm", html_all, False)
         Else
             My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(My.Settings.lastFile) & "\rl_vk.htm", html, False)
+            My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(My.Settings.lastFile) & "\rla_vk.htm", html_all, False)
         End If
     End Sub
 
