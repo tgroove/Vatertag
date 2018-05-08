@@ -271,7 +271,11 @@ Public Class frmTop10
         'End If
         p = p + 1
         If p > 10000 Then p = 0
-        html = html_vor & html_page(((p \ 4) Mod (page)) + 1) & html_nach
+        If page > 0 Then
+            html = html_vor & html_page(((p \ 4) Mod (page)) + 1) & html_nach
+        Else
+            html = html_vor & html_page(0) & html_nach
+        End If
         If mode = "Auswertung" Then
             My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(My.Settings.lastFile) & "\rl.htm", html, False)
             My.Computer.FileSystem.WriteAllText(Path.GetDirectoryName(My.Settings.lastFile) & "\rla.htm", html_all, False)
