@@ -24,7 +24,7 @@ Public Class frmTop10
         Dim rtf As String = "{\rtf1\ansi\deff0 {\fonttbl {\f0 Arial;}}"
 
         Dim ZeilenProSpalte = 15
-        FontSizeFactor = 1.1
+        FontSizeFactor = 0.93
         border = 3
         Padding = 8
 
@@ -168,7 +168,7 @@ Public Class frmTop10
                     html_page(page) = html_page(page) & vbCrLf _
                           & "              <tr>" _
                           & "<td align=""center"">" & Pos & " </td>" _
-                          & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.2 * FontSize * FontSizeFactor) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
+                          & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.17 * FontSize * FontSizeFactor) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
                           & "<td align=""center"">" & dataReader(3).ToString & " </td>" _
                           & "<td align=""center"">" & dataReader(4).ToString & " </td>" _
                           & "<td align=""center"">" & dataReader(5).ToString & " </td>" _
@@ -177,7 +177,7 @@ Public Class frmTop10
                     html_all = html_all & vbCrLf _
                           & "            <tr>" _
                           & "<td align=""center"">" & Pos & " </td>" _
-                          & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.2 * FontSize * FontSizeFactor_all) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
+                          & "<td align=""left"">" & dataReader(1).ToString & "<span style=""font-size:" & CInt(0.17 * FontSize * FontSizeFactor_all) & "pt"">&nbsp;(" & dataReader(0) & ")</span></td>" _
                           & "<td align=""center"">" & dataReader(3).ToString & " </td>" _
                           & "<td align=""center"">" & dataReader(4).ToString & " </td>" _
                           & "<td align=""center"">" & dataReader(5).ToString & " </td>" _
