@@ -20,6 +20,7 @@ Public Class frmErgebnisse
         Dim daten As strucTeilnehmer
         Dim i As Integer
         daten = GetTeilnehmerData(ID)
+        Console.WriteLine("FillData " & daten.Nr & ", " & daten.Scheibe1 & ", " & daten.Scheibe2 & ", " & daten.Scheibe3 & ", " & daten.Scheibe4)
         lblNr.Text = daten.Nr
         lblName.Text = daten.Name
         Ergebnisse(0).Wert = daten.Scheibe1
@@ -130,10 +131,6 @@ Public Class frmErgebnisse
 
     Private Sub cmdOK_Click(sender As Object, e As EventArgs) Handles cmdOK.Click
         Uebernehmen()
-    End Sub
-
-    Private Sub lblErg1_Click(sender As Object, e As EventArgs) Handles lblErg1.Click
-
     End Sub
 
     Private Sub lblErg1_DoubleClick(sender As Object, e As EventArgs) Handles lblErg1.DoubleClick
