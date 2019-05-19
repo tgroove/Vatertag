@@ -9,6 +9,7 @@ Imports System.Data.OleDb
 Module Vatertag
     Dim cs As String
     Dim MaxTlnrNr As Integer = 0
+    Dim DataArray(250) As String
 
     Public Structure strucCounts
         Public Teilnehmer As Integer
@@ -339,6 +340,27 @@ Module Vatertag
         GetTimeStamp = Now.TimeOfDay.ToString
     End Function
 
+
+    Public Function CheckData(ID As Integer, data As String, Optional ByVal update As Boolean = False) As String
+        Select Case DataArray(ID)
+            Case ""
+                CheckData = "New"
+                Console.WriteLine(GetTimeStamp() & " CheckData New " & ID & ": " & data)
+            Case data
+                CheckData = "OK"
+                Console.WriteLine(GetTimeStamp() & " CheckData OK " & ID & ": " & data)
+            Case Else
+                If update Then
+                    CheckData = "Update"
+                    Console.WriteLine(GetTimeStamp() & " CheckData UpdateCheckData " & ID & ": " & data)
+                Else
+                    CheckData = "NOK"
+                    Console.WriteLine(GetTimeStamp() & " CheckData NOK " & ID & ": " & DataArray(ID))
+                    Console.WriteLine(GetTimeStamp() & " CheckData NOK " & ID & ": " & data)
+                End If
+        End Select
+        DataArray(ID) = data
+    End Function
 
     'Public Function ExtractResourceToDisk(ByVal ResourceName As String, ByVal FileToExtractTo As String) As Boolean
 

@@ -19,8 +19,13 @@ Public Class frmErgebnisse
     Public Sub FillData(ID As Integer)
         Dim daten As strucTeilnehmer
         Dim i As Integer
+        Dim res As String
         daten = GetTeilnehmerData(ID)
         Console.WriteLine("FillData " & daten.Nr & ", " & daten.Scheibe1 & ", " & daten.Scheibe2 & ", " & daten.Scheibe3 & ", " & daten.Scheibe4)
+        res = CheckData(ID, daten.Nr & ": " & daten.Scheibe1 & ";" & daten.Scheibe2 & ";" & daten.Scheibe3 & ";" & daten.Scheibe4)
+        If res <> "OK" And res <> "New" Then
+            MsgBox("Konsistenz-Fehler", MsgBoxStyle.Critical, "Vatertagsschießen")
+        End If
         lblNr.Text = daten.Nr
         lblName.Text = daten.Name
         Ergebnisse(0).Wert = daten.Scheibe1
@@ -183,6 +188,7 @@ Public Class frmErgebnisse
         Dim NeueErgebnisse As String = ""
         Dim i As Integer
         Dim done As Boolean = False
+        Dim res As String
         queryString = "UPDATE Kunden " _
                 & " SET Scheibe1=" & Ergebnisse(0).Wert & ", " _
                 & " Scheibe2=" & Ergebnisse(1).Wert & ", " _
@@ -236,6 +242,10 @@ Public Class frmErgebnisse
             Console.WriteLine(GetTimeStamp() & " cmdOK failed. RecordsAffected = " & RecordsAffected)
             MsgBox("Datensatz konnte nicht geändert werden")
         Else
+            res = CheckData(Val(lblNr.Text), Val(lblNr.Text) & ": " & Ergebnisse(0).Wert & ";" & Ergebnisse(1).Wert & ";" & Ergebnisse(2).Wert & ";" & Ergebnisse(3).Wert, True)
+            If res <> "Update" And res <> "OK" Then
+                MsgBox("Konsistenz-Fehler", MsgBoxStyle.Critical, "Vatertagsschießen")
+            End If
             AddLog(LogText, IIf(GelöschteErgebnisse <> "", True, False))
             frmSuche.Clear()
             Me.Hide()
