@@ -132,6 +132,7 @@ Module Vatertag
                     If NoResults Then
                         data.Nr = 0
                         Console.WriteLine("GetTeilnehmerData failed. No Results found for Nr " & Nr)
+                        MsgBox("Es wurde kein Datensatz gefunden.", MsgBoxStyle.RetryCancel)
                     Else
                         Console.WriteLine(GetTimeStamp() & " GetTeilnehmerData: " _
                             & data.Nr & ", " _
