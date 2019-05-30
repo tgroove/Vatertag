@@ -36,6 +36,8 @@ Public Class frmErgebnisse
         Ergebnisse(5).Wert = 0
         Ergebnisse(6).Wert = 0
         Ergebnisse(7).Wert = 0
+        Ergebnisse(8).Wert = 0
+        Ergebnisse(9).Wert = 0
         For i = 0 To 9
             Ergebnisse(i).Neu = False
         Next
@@ -84,6 +86,16 @@ Public Class frmErgebnisse
 
     Private Sub ErgebnisSort()
         Dim vTemp As strucErgebnisse
+        Console.Write("Sort1:" & Ergebnisse(0).ToString & ", " &
+                      Ergebnisse(1).ToString & ", " &
+                      Ergebnisse(2).ToString & ", " &
+                      Ergebnisse(3).ToString & ", " &
+                      Ergebnisse(4).ToString & ", " &
+                      Ergebnisse(5).ToString & ", " &
+                      Ergebnisse(6).ToString & ", " &
+                      Ergebnisse(7).ToString & ", " &
+                      Ergebnisse(8).ToString & ", " &
+                      Ergebnisse(9).ToString)
         For j = UBound(Ergebnisse) - 1 To LBound(Ergebnisse) Step -1
             ' Alle links davon liegenden Zeichen auf richtige Sortierung 
             ' der jeweiligen Nachfolger überprüfen: 
@@ -97,6 +109,16 @@ Public Class frmErgebnisse
                 End If
             Next i
         Next j
+        Console.Write("Sort2:" & Ergebnisse(0).ToString & ", " &
+                      Ergebnisse(1).ToString & ", " &
+                      Ergebnisse(2).ToString & ", " &
+                      Ergebnisse(3).ToString & ", " &
+                      Ergebnisse(4).ToString & ", " &
+                      Ergebnisse(5).ToString & ", " &
+                      Ergebnisse(6).ToString & ", " &
+                      Ergebnisse(7).ToString & ", " &
+                      Ergebnisse(8).ToString & ", " &
+                      Ergebnisse(9).ToString)
     End Sub
 
     Private Sub frmErgebnisse_Load(sender As Object, e As EventArgs) Handles MyBase.Load

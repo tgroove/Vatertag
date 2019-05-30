@@ -497,14 +497,14 @@ Public Class frmSuche
                             p2.X = x2 + 150
                             p2.Y = p1.Y
                             e.Graphics.DrawLine(Pens.Black, p1, p2)
-                            If y > e.MarginBounds.Bottom - 15 Then
+                            If y > e.MarginBounds.Bottom - 35 Then
                                 e.HasMorePages = True
                                 done = True
                                 Exit Do
                             End If
                         End If
                     Loop
-                    e.Graphics.DrawString("Seite " & Page, fontReg, Brushes.Black, e.PageBounds.Right - 90, e.PageBounds.Bottom - 65)
+                    e.Graphics.DrawString("Seite " & Page, fontReg, Brushes.Black, e.PageBounds.Right - 90, e.PageBounds.Bottom - 85)
                     dataReader.Close()
                     done = True
                 Catch ex As Exception
